@@ -10,12 +10,15 @@ import {
   Stethoscope,
 } from "lucide-react";
 
+const DEFAULT_DOCTOR_EMAIL = "doctor@revivalivf.com";
+const DEFAULT_DOCTOR_PASSWORD = "RevivalIVF@123";
+
 export default function DoctorLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(DEFAULT_DOCTOR_EMAIL);
+  const [password, setPassword] = useState(DEFAULT_DOCTOR_PASSWORD);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -110,10 +113,10 @@ export default function DoctorLogin() {
       otherStorage.removeItem("doctor_role");
 
       /*
-       * Go to Doctor Dashboard
+       * Go to the Doctor Dashboard
        */
 
-      window.location.href = "/doctor/dashboard";
+      window.location.href = "/dashboard";
     } catch (err) {
       if (err instanceof TypeError) {
         setError(
@@ -174,6 +177,18 @@ export default function DoctorLogin() {
 
           {/* LOGIN CARD */}
           <div className="mt-9 rounded-3xl border border-[#dfdcd9] bg-white p-7 shadow-[0_20px_60px_rgba(45,42,50,0.08)] sm:p-9">
+
+            <div className="mb-5 rounded-xl border border-[#e8e4e0] bg-[#f6f4f2] px-4 py-3 text-xs leading-5 text-[#5f5b66]">
+              <p className="font-semibold uppercase tracking-[0.12em] text-[#3b3652]">
+                Demo credentials
+              </p>
+              <p className="mt-1">
+                Email: <span className="font-semibold text-[#29253d]">{DEFAULT_DOCTOR_EMAIL}</span>
+              </p>
+              <p>
+                Password: <span className="font-semibold text-[#29253d]">{DEFAULT_DOCTOR_PASSWORD}</span>
+              </p>
+            </div>
 
             <form onSubmit={handleSubmit}>
 

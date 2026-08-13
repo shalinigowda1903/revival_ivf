@@ -5,6 +5,7 @@ from fastapi import (
     UploadFile,
     File
 )
+from fastapi.middleware.cors import CORSMiddleware
 
 from sqlalchemy.orm import Session
 
@@ -44,6 +45,19 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # =========================================================
 # DATABASE
@@ -52,6 +66,75 @@ app = FastAPI(
 Base.metadata.create_all(
     bind=engine
 )
+
+
+DEFAULT_DOCTOR_EMAIL = "doctor@revivalivf.com"
+DEFAULT_DOCTOR_PASSWORD = "RevivalIVF@123"
+DEFAULT_PATIENT_EMAIL = "patient@revivalivf.com"
+DEFAULT_PATIENT_PASSWORD = "PatientIVF@123"
+
+
+@app.on_event("startup")
+def seed_default_doctor():
+    db = next(get_db())
+
+    try:
+        doctor = db.query(
+            models.Doctor
+        ).filter(
+            models.Doctor.email == DEFAULT_DOCTOR_EMAIL
+        ).first()
+
+        if doctor is None:
+            db.add(models.Doctor(
+                first_name="Dr.",
+                last_name="Revival",
+                specialization="General IVF",
+                phone="+15550000001",
+                email=DEFAULT_DOCTOR_EMAIL,
+                password=hash_password(DEFAULT_DOCTOR_PASSWORD)
+            ))
+            db.commit()
+
+        if not verify_password(
+            DEFAULT_DOCTOR_PASSWORD,
+            doctor.password if doctor else hash_password(DEFAULT_DOCTOR_PASSWORD)
+        ) and doctor is not None:
+            doctor.password = hash_password(DEFAULT_DOCTOR_PASSWORD)
+            db.commit()
+
+        patient = db.query(
+            models.Patient
+        ).filter(
+            models.Patient.email == DEFAULT_PATIENT_EMAIL
+        ).first()
+
+        if patient is None:
+            db.add(models.Patient(
+                first_name="Patient",
+                last_name="Revival",
+                dob=date(1995, 1, 15),
+                gender="Female",
+                blood_group="O+",
+                phone="+15550000002",
+                email=DEFAULT_PATIENT_EMAIL,
+                country="India",
+                state="Karnataka",
+                city="Bengaluru",
+                address="Demo Patient Address",
+                password=hash_password(DEFAULT_PATIENT_PASSWORD)
+            ))
+            db.commit()
+
+        if patient is not None and not verify_password(
+            DEFAULT_PATIENT_PASSWORD,
+            patient.password
+        ):
+            patient.password = hash_password(DEFAULT_PATIENT_PASSWORD)
+            db.commit()
+
+    finally:
+        db.close()
 
 
 # =========================================================
