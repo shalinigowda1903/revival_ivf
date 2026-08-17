@@ -71,9 +71,7 @@ app.add_middleware(
 # DATABASE
 # =========================================================
 
-Base.metadata.create_all(
-    bind=engine
-)
+Base.metadata.create_all(bind=engine)
 
 
 # =========================================================
@@ -107,7 +105,6 @@ def hash_password(password: str) -> str:
 
     password_bytes = password.encode("utf-8")
 
-    # bcrypt accepts maximum 72 bytes
     if len(password_bytes) > 72:
         password_bytes = password_bytes[:72]
 
@@ -180,9 +177,7 @@ def seed_default_accounts():
             )
 
             db.add(doctor)
-
             db.commit()
-
             db.refresh(doctor)
 
         else:
@@ -217,21 +212,42 @@ def seed_default_accounts():
                 dob=date(1995, 1, 15),
                 gender="Female",
                 blood_group="O+",
+
                 phone="+15550000002",
                 email=DEFAULT_PATIENT_EMAIL,
+
                 country="India",
                 state="Karnataka",
                 city="Bengaluru",
                 address="Demo Patient Address",
+
+                medical_history="No major medical history",
+                current_problems="Infertility",
+                previous_surgeries="None",
+                chronic_conditions="None",
+                allergies="None",
+                current_medications="None",
+                family_medical_history="None",
+
+                previous_ivf_history="None",
+                previous_pregnancy_history="None",
+                infertility_duration="Not specified",
+                infertility_cause="Not specified",
+                menstrual_history="Not specified",
+                fertility_treatment_history="None",
+
+                doctor_notes="Demo patient",
+
+                emergency_contact_name="Emergency Contact",
+                emergency_contact_phone="+15550000003",
+
                 password=hash_password(
                     DEFAULT_PATIENT_PASSWORD
                 )
             )
 
             db.add(patient)
-
             db.commit()
-
             db.refresh(patient)
 
         else:
@@ -279,12 +295,35 @@ class PatientRegister(BaseModel):
     dob: date
     gender: str
     blood_group: str | None = None
+
     phone: str
     email: str
+
     country: str | None = None
     state: str | None = None
     city: str | None = None
     address: str | None = None
+
+    medical_history: str | None = None
+    current_problems: str | None = None
+    previous_surgeries: str | None = None
+    chronic_conditions: str | None = None
+    allergies: str | None = None
+    current_medications: str | None = None
+    family_medical_history: str | None = None
+
+    previous_ivf_history: str | None = None
+    previous_pregnancy_history: str | None = None
+    infertility_duration: str | None = None
+    infertility_cause: str | None = None
+    menstrual_history: str | None = None
+    fertility_treatment_history: str | None = None
+
+    doctor_notes: str | None = None
+
+    emergency_contact_name: str | None = None
+    emergency_contact_phone: str | None = None
+
     password: str
 
 
@@ -292,6 +331,53 @@ class PatientLogin(BaseModel):
 
     email: str
     password: str
+
+
+# =========================================================
+# DOCTOR ADD PATIENT SCHEMA
+# =========================================================
+
+class DoctorPatientCreate(BaseModel):
+
+    # BASIC INFORMATION
+    first_name: str
+    last_name: str
+
+    dob: date
+    gender: str
+    blood_group: str | None = None
+
+    phone: str
+    email: str
+
+    country: str | None = None
+    state: str | None = None
+    city: str | None = None
+    address: str | None = None
+
+    # MEDICAL HISTORY
+    medical_history: str | None = None
+    current_problems: str | None = None
+    previous_surgeries: str | None = None
+    chronic_conditions: str | None = None
+    allergies: str | None = None
+    current_medications: str | None = None
+    family_medical_history: str | None = None
+
+    # IVF / FERTILITY
+    previous_ivf_history: str | None = None
+    previous_pregnancy_history: str | None = None
+    infertility_duration: str | None = None
+    infertility_cause: str | None = None
+    menstrual_history: str | None = None
+    fertility_treatment_history: str | None = None
+
+    # DOCTOR NOTES
+    doctor_notes: str | None = None
+
+    # EMERGENCY
+    emergency_contact_name: str | None = None
+    emergency_contact_phone: str | None = None
 
 
 # =========================================================
@@ -347,7 +433,6 @@ def register_doctor(
             detail="Doctor with this email already exists"
         )
 
-
     existing_phone = db.query(
         models.Doctor
     ).filter(
@@ -361,7 +446,6 @@ def register_doctor(
             detail="Doctor with this phone number already exists"
         )
 
-
     new_doctor = models.Doctor(
         first_name=doctor.first_name.strip(),
         last_name=doctor.last_name.strip(),
@@ -374,9 +458,7 @@ def register_doctor(
     )
 
     db.add(new_doctor)
-
     db.commit()
-
     db.refresh(new_doctor)
 
     return {
@@ -410,7 +492,6 @@ def doctor_login(
             detail="Invalid email or password"
         )
 
-
     if not verify_password(
         doctor.password,
         existing_doctor.password
@@ -420,7 +501,6 @@ def doctor_login(
             status_code=401,
             detail="Invalid email or password"
         )
-
 
     token = create_access_token(
         existing_doctor.id,
@@ -466,7 +546,6 @@ def register_patient(
             detail="Patient with this email already exists"
         )
 
-
     existing_phone = db.query(
         models.Patient
     ).filter(
@@ -480,28 +559,50 @@ def register_patient(
             detail="Patient with this phone number already exists"
         )
 
-
     new_patient = models.Patient(
+
         first_name=patient.first_name.strip(),
         last_name=patient.last_name.strip(),
+
         dob=patient.dob,
-        gender=patient.gender,
+        gender=patient.gender.strip(),
         blood_group=patient.blood_group,
+
         phone=phone,
         email=email,
+
         country=patient.country,
         state=patient.state,
         city=patient.city,
         address=patient.address,
+
+        medical_history=patient.medical_history,
+        current_problems=patient.current_problems,
+        previous_surgeries=patient.previous_surgeries,
+        chronic_conditions=patient.chronic_conditions,
+        allergies=patient.allergies,
+        current_medications=patient.current_medications,
+        family_medical_history=patient.family_medical_history,
+
+        previous_ivf_history=patient.previous_ivf_history,
+        previous_pregnancy_history=patient.previous_pregnancy_history,
+        infertility_duration=patient.infertility_duration,
+        infertility_cause=patient.infertility_cause,
+        menstrual_history=patient.menstrual_history,
+        fertility_treatment_history=patient.fertility_treatment_history,
+
+        doctor_notes=patient.doctor_notes,
+
+        emergency_contact_name=patient.emergency_contact_name,
+        emergency_contact_phone=patient.emergency_contact_phone,
+
         password=hash_password(
             patient.password
         )
     )
 
     db.add(new_patient)
-
     db.commit()
-
     db.refresh(new_patient)
 
     return {
@@ -535,7 +636,6 @@ def patient_login(
             detail="Invalid email or password"
         )
 
-
     if not verify_password(
         patient.password,
         existing_patient.password
@@ -545,7 +645,6 @@ def patient_login(
             status_code=401,
             detail="Invalid email or password"
         )
-
 
     token = create_access_token(
         existing_patient.id,
@@ -562,6 +661,162 @@ def patient_login(
         "email": existing_patient.email,
         "phone": existing_patient.phone,
         "role": "patient"
+    }
+
+
+# =========================================================
+# DOCTOR ADD PATIENT MANUALLY
+# =========================================================
+
+@app.post("/doctors/patients")
+def create_patient_by_doctor(
+    patient: DoctorPatientCreate,
+    doctor_user: dict = Depends(require_doctor),
+    db: Session = Depends(get_db)
+):
+
+    doctor_id = doctor_user["user_id"]
+
+    doctor = db.query(
+        models.Doctor
+    ).filter(
+        models.Doctor.id == doctor_id
+    ).first()
+
+    if not doctor:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Doctor not found"
+        )
+
+    email = patient.email.strip().lower()
+    phone = patient.phone.strip()
+
+    existing_patient = db.query(
+        models.Patient
+    ).filter(
+        models.Patient.email == email
+    ).first()
+
+    if existing_patient:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Patient with this email already exists"
+        )
+
+    existing_phone = db.query(
+        models.Patient
+    ).filter(
+        models.Patient.phone == phone
+    ).first()
+
+    if existing_phone:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Patient with this phone number already exists"
+        )
+
+    new_patient = models.Patient(
+
+        first_name=patient.first_name.strip(),
+        last_name=patient.last_name.strip(),
+
+        dob=patient.dob,
+        gender=patient.gender.strip(),
+        blood_group=patient.blood_group,
+
+        phone=phone,
+        email=email,
+
+        country=patient.country,
+        state=patient.state,
+        city=patient.city,
+        address=patient.address,
+
+        medical_history=patient.medical_history,
+        current_problems=patient.current_problems,
+        previous_surgeries=patient.previous_surgeries,
+        chronic_conditions=patient.chronic_conditions,
+        allergies=patient.allergies,
+        current_medications=patient.current_medications,
+        family_medical_history=patient.family_medical_history,
+
+        previous_ivf_history=patient.previous_ivf_history,
+        previous_pregnancy_history=patient.previous_pregnancy_history,
+        infertility_duration=patient.infertility_duration,
+        infertility_cause=patient.infertility_cause,
+        menstrual_history=patient.menstrual_history,
+        fertility_treatment_history=patient.fertility_treatment_history,
+
+        doctor_notes=patient.doctor_notes,
+
+        emergency_contact_name=patient.emergency_contact_name,
+        emergency_contact_phone=patient.emergency_contact_phone,
+
+        password=hash_password(
+            "Welcome@123"
+        )
+    )
+
+    try:
+
+        db.add(new_patient)
+        db.commit()
+        db.refresh(new_patient)
+
+    except Exception as error:
+
+        db.rollback()
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unable to create patient: {str(error)}"
+        )
+
+    return {
+        "message": "Patient added successfully",
+
+        "patient": {
+            "patient_id": new_patient.id,
+
+            "first_name": new_patient.first_name,
+            "last_name": new_patient.last_name,
+
+            "dob": new_patient.dob,
+            "gender": new_patient.gender,
+            "blood_group": new_patient.blood_group,
+
+            "phone": new_patient.phone,
+            "email": new_patient.email,
+
+            "country": new_patient.country,
+            "state": new_patient.state,
+            "city": new_patient.city,
+            "address": new_patient.address,
+
+            "medical_history": new_patient.medical_history,
+            "current_problems": new_patient.current_problems,
+            "previous_surgeries": new_patient.previous_surgeries,
+            "chronic_conditions": new_patient.chronic_conditions,
+            "allergies": new_patient.allergies,
+            "current_medications": new_patient.current_medications,
+            "family_medical_history": new_patient.family_medical_history,
+
+            "previous_ivf_history": new_patient.previous_ivf_history,
+            "previous_pregnancy_history": new_patient.previous_pregnancy_history,
+            "infertility_duration": new_patient.infertility_duration,
+            "infertility_cause": new_patient.infertility_cause,
+            "menstrual_history": new_patient.menstrual_history,
+            "fertility_treatment_history": new_patient.fertility_treatment_history,
+
+            "doctor_notes": new_patient.doctor_notes,
+
+            "emergency_contact_name": new_patient.emergency_contact_name,
+            "emergency_contact_phone": new_patient.emergency_contact_phone
+        }
     }
 
 
@@ -599,7 +854,10 @@ def auth_me(
 
         today = date.today()
 
-        age = today.year - patient.dob.year
+        age = (
+            today.year
+            - patient.dob.year
+        )
 
         if (
             today.month,
@@ -613,22 +871,49 @@ def auth_me(
 
         return {
             "message": "Authentication successful",
+
             "user_id": patient.id,
             "patient_id": patient.id,
+
             "first_name": patient.first_name,
             "last_name": patient.last_name,
+
             "email": patient.email,
             "phone": patient.phone,
+
             "age": age,
+            "dob": patient.dob,
+
             "gender": patient.gender,
             "blood_group": patient.blood_group,
+
             "country": patient.country,
             "state": patient.state,
             "city": patient.city,
             "address": patient.address,
+
+            "medical_history": patient.medical_history,
+            "current_problems": patient.current_problems,
+            "previous_surgeries": patient.previous_surgeries,
+            "chronic_conditions": patient.chronic_conditions,
+            "allergies": patient.allergies,
+            "current_medications": patient.current_medications,
+            "family_medical_history": patient.family_medical_history,
+
+            "previous_ivf_history": patient.previous_ivf_history,
+            "previous_pregnancy_history": patient.previous_pregnancy_history,
+            "infertility_duration": patient.infertility_duration,
+            "infertility_cause": patient.infertility_cause,
+            "menstrual_history": patient.menstrual_history,
+            "fertility_treatment_history": patient.fertility_treatment_history,
+
+            "doctor_notes": patient.doctor_notes,
+
+            "emergency_contact_name": patient.emergency_contact_name,
+            "emergency_contact_phone": patient.emergency_contact_phone,
+
             "role": "patient"
         }
-
 
     # -----------------------------------------------------
     # DOCTOR
@@ -651,16 +936,20 @@ def auth_me(
 
         return {
             "message": "Authentication successful",
+
             "user_id": doctor.id,
             "doctor_id": doctor.id,
+
             "first_name": doctor.first_name,
             "last_name": doctor.last_name,
+
             "email": doctor.email,
             "phone": doctor.phone,
+
             "specialization": doctor.specialization,
+
             "role": "doctor"
         }
-
 
     raise HTTPException(
         status_code=401,
@@ -714,6 +1003,7 @@ def get_doctor_patients(
 
     doctor_id = doctor_user["user_id"]
 
+    # Patients are linked to the doctor through embryos.
     embryos = db.query(
         models.Embryo
     ).filter(
@@ -729,7 +1019,6 @@ def get_doctor_patients(
             patient_ids.append(
                 embryo.patient_id
             )
-
 
     patients = []
 
@@ -751,21 +1040,27 @@ def get_doctor_patients(
             ).count()
 
             patients.append({
+
                 "patient_id": patient.id,
+
                 "first_name": patient.first_name,
                 "last_name": patient.last_name,
+
                 "email": patient.email,
                 "phone": patient.phone,
+
                 "dob": patient.dob,
                 "gender": patient.gender,
                 "blood_group": patient.blood_group,
-                "country": patient.country,
-                "state": patient.state,
+
                 "city": patient.city,
-                "address": patient.address,
+
+                "medical_history": patient.medical_history,
+                "current_problems": patient.current_problems,
+                "chronic_conditions": patient.chronic_conditions,
+
                 "embryo_count": embryo_count
             })
-
 
     return {
         "doctor_id": doctor_id,
@@ -803,11 +1098,9 @@ def search_patients(
                 embryo.patient_id
             )
 
-
     results = []
 
     search_text = query.strip().lower()
-
 
     for patient_id in patient_ids:
 
@@ -820,16 +1113,13 @@ def search_patients(
         if not patient:
             continue
 
-
         full_name = (
             f"{patient.first_name} "
             f"{patient.last_name}"
         ).lower()
 
         email = patient.email.lower()
-
         phone = patient.phone.lower()
-
 
         if (
             search_text in full_name
@@ -838,17 +1128,21 @@ def search_patients(
         ):
 
             results.append({
+
                 "patient_id": patient.id,
+
                 "first_name": patient.first_name,
                 "last_name": patient.last_name,
+
                 "email": patient.email,
                 "phone": patient.phone,
+
                 "dob": patient.dob,
                 "gender": patient.gender,
                 "blood_group": patient.blood_group,
+
                 "city": patient.city
             })
-
 
     return {
         "patients": results
@@ -868,6 +1162,21 @@ def get_patient(
 
     doctor_id = doctor_user["user_id"]
 
+    # Check that patient exists
+    patient = db.query(
+        models.Patient
+    ).filter(
+        models.Patient.id == patient_id
+    ).first()
+
+    if not patient:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Patient not found"
+        )
+
+    # Check that doctor has access to patient.
     embryo = db.query(
         models.Embryo
     ).filter(
@@ -882,34 +1191,56 @@ def get_patient(
             detail="Patient not found in your patient list"
         )
 
-
-    patient = db.query(
-        models.Patient
-    ).filter(
-        models.Patient.id == patient_id
-    ).first()
-
-    if not patient:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Patient not found"
-        )
-
+    # =====================================================
+    # RETURN FULL PATIENT INFORMATION
+    # =====================================================
 
     return {
+
         "patient_id": patient.id,
+
         "first_name": patient.first_name,
         "last_name": patient.last_name,
+
         "dob": patient.dob,
         "gender": patient.gender,
         "blood_group": patient.blood_group,
+
         "phone": patient.phone,
         "email": patient.email,
+
         "country": patient.country,
         "state": patient.state,
         "city": patient.city,
-        "address": patient.address
+        "address": patient.address,
+
+        # MEDICAL HISTORY
+
+        "medical_history": patient.medical_history,
+        "current_problems": patient.current_problems,
+        "previous_surgeries": patient.previous_surgeries,
+        "chronic_conditions": patient.chronic_conditions,
+        "allergies": patient.allergies,
+        "current_medications": patient.current_medications,
+        "family_medical_history": patient.family_medical_history,
+
+        # IVF / FERTILITY
+
+        "previous_ivf_history": patient.previous_ivf_history,
+        "previous_pregnancy_history": patient.previous_pregnancy_history,
+        "infertility_duration": patient.infertility_duration,
+        "infertility_cause": patient.infertility_cause,
+        "menstrual_history": patient.menstrual_history,
+        "fertility_treatment_history": patient.fertility_treatment_history,
+
+        # DOCTOR NOTES
+
+        "doctor_notes": patient.doctor_notes,
+
+        # EMERGENCY
+
+        "emergency_contact_name": patient.emergency_contact_name,
+        "emergency_contact_phone": patient.emergency_contact_phone
     }
 
 
@@ -926,7 +1257,6 @@ def get_patient_embryos_for_doctor(
 
     doctor_id = doctor_user["user_id"]
 
-
     patient = db.query(
         models.Patient
     ).filter(
@@ -940,7 +1270,6 @@ def get_patient_embryos_for_doctor(
             detail="Patient not found"
         )
 
-
     embryos = db.query(
         models.Embryo
     ).filter(
@@ -948,31 +1277,40 @@ def get_patient_embryos_for_doctor(
         models.Embryo.doctor_id == doctor_id
     ).all()
 
-
     return {
+
         "patient": {
+
             "patient_id": patient.id,
+
             "first_name": patient.first_name,
             "last_name": patient.last_name,
+
             "email": patient.email,
             "phone": patient.phone,
+
             "dob": patient.dob,
             "gender": patient.gender,
-            "blood_group": patient.blood_group
+            "blood_group": patient.blood_group,
+
+            "medical_history": patient.medical_history,
+            "current_problems": patient.current_problems,
+            "current_medications": patient.current_medications
         },
 
         "embryo_count": len(embryos),
 
         "embryos": [
+
             {
                 "embryo_id": embryo.id,
                 "image_path": embryo.image_path,
                 "status": embryo.status,
                 "embryo_grade": embryo.embryo_grade,
                 "confidence": embryo.confidence,
-                "implantation_chance":
-                    embryo.implantation_chance
+                "implantation_chance": embryo.implantation_chance
             }
+
             for embryo in embryos
         ]
     }
@@ -980,10 +1318,6 @@ def get_patient_embryos_for_doctor(
 
 # =========================================================
 # GET PATIENT EMBRYOS - PATIENT
-#
-# IMPORTANT:
-# Patients can see the analysis result,
-# but cannot upload or analyze embryos.
 # =========================================================
 
 @app.get("/patients/{patient_id}/embryos")
@@ -995,14 +1329,12 @@ def get_patient_embryos_for_patient(
 
     logged_in_patient_id = patient_user["user_id"]
 
-
     if patient_id != logged_in_patient_id:
 
         raise HTTPException(
             status_code=403,
             detail="You can only access your own embryo information"
         )
-
 
     patient = db.query(
         models.Patient
@@ -1017,31 +1349,29 @@ def get_patient_embryos_for_patient(
             detail="Patient not found"
         )
 
-
     embryos = db.query(
         models.Embryo
     ).filter(
         models.Embryo.patient_id == patient_id
     ).all()
 
-
     return [
+
         {
             "embryo_id": embryo.id,
             "status": embryo.status,
             "embryo_grade": embryo.embryo_grade,
             "confidence": embryo.confidence,
-            "implantation_chance":
-                embryo.implantation_chance
+            "implantation_chance": embryo.implantation_chance
         }
+
         for embryo in embryos
     ]
 
 
 # =========================================================
 # EMBRYO UPLOAD
-#
-# ONLY DOCTOR CAN UPLOAD
+# ONLY DOCTOR
 # =========================================================
 
 @app.post("/embryos/upload")
@@ -1053,11 +1383,6 @@ async def upload_embryo(
 ):
 
     doctor_id = doctor_user["user_id"]
-
-
-    # -----------------------------------------------------
-    # CHECK DOCTOR
-    # -----------------------------------------------------
 
     doctor = db.query(
         models.Doctor
@@ -1072,11 +1397,6 @@ async def upload_embryo(
             detail="Doctor not found"
         )
 
-
-    # -----------------------------------------------------
-    # CHECK PATIENT
-    # -----------------------------------------------------
-
     patient = db.query(
         models.Patient
     ).filter(
@@ -1090,11 +1410,6 @@ async def upload_embryo(
             detail="Patient not found"
         )
 
-
-    # -----------------------------------------------------
-    # CHECK FILE
-    # -----------------------------------------------------
-
     if not file.filename:
 
         raise HTTPException(
@@ -1102,13 +1417,11 @@ async def upload_embryo(
             detail="Please select an embryo image"
         )
 
-
     allowed_types = {
         "image/jpeg",
         "image/jpg",
         "image/png"
     }
-
 
     if file.content_type not in allowed_types:
 
@@ -1117,11 +1430,9 @@ async def upload_embryo(
             detail="Only JPG, JPEG and PNG images are allowed"
         )
 
-
     extension = Path(
         file.filename
     ).suffix.lower()
-
 
     if extension not in [
         ".jpg",
@@ -1134,24 +1445,13 @@ async def upload_embryo(
             detail="Only JPG, JPEG and PNG files are allowed"
         )
 
-
-    # -----------------------------------------------------
-    # UNIQUE FILE NAME
-    # -----------------------------------------------------
-
     unique_filename = (
         f"{uuid.uuid4()}{extension}"
     )
 
-
     file_path = (
         UPLOAD_DIR / unique_filename
     )
-
-
-    # -----------------------------------------------------
-    # SAVE IMAGE
-    # -----------------------------------------------------
 
     try:
 
@@ -1172,17 +1472,15 @@ async def upload_embryo(
             detail=f"Unable to save image: {str(error)}"
         )
 
-
-    # -----------------------------------------------------
-    # SAVE DATABASE RECORD
-    # -----------------------------------------------------
-
     try:
 
         new_embryo = models.Embryo(
+
             patient_id=patient_id,
             doctor_id=doctor_id,
+
             image_path=str(file_path),
+
             status="uploaded"
         )
 
@@ -1204,21 +1502,25 @@ async def upload_embryo(
             detail=f"Unable to save embryo record: {str(error)}"
         )
 
-
     return {
+
         "message": "Embryo image uploaded successfully",
+
         "embryo_id": new_embryo.id,
+
         "patient_id": patient_id,
+
         "doctor_id": doctor_id,
+
         "filename": unique_filename,
+
         "status": "uploaded"
     }
 
 
 # =========================================================
 # ANALYZE EMBRYO
-#
-# ONLY DOCTOR CAN ANALYZE
+# ONLY DOCTOR
 # =========================================================
 
 @app.post("/embryos/{embryo_id}/analyze")
@@ -1234,14 +1536,12 @@ def analyze_embryo(
         models.Embryo.id == embryo_id
     ).first()
 
-
     if not embryo:
 
         raise HTTPException(
             status_code=404,
             detail="Embryo not found"
         )
-
 
     if embryo.doctor_id != doctor_user["user_id"]:
 
@@ -1250,14 +1550,8 @@ def analyze_embryo(
             detail="You can only analyze your own uploaded embryos"
         )
 
-
     # =====================================================
     # TEMPORARY AI RESULT
-    #
-    # THIS IS NOT A REAL TRAINED MODEL.
-    #
-    # We will replace this section with your trained
-    # CNN model later.
     # =====================================================
 
     embryo.embryo_grade = "4AA"
@@ -1268,27 +1562,29 @@ def analyze_embryo(
 
     embryo.status = "analyzed"
 
-
     db.commit()
 
     db.refresh(embryo)
 
-
     return {
+
         "message": "Embryo analysis completed",
+
         "embryo_id": embryo.id,
+
         "status": embryo.status,
+
         "embryo_grade": embryo.embryo_grade,
+
         "confidence": embryo.confidence,
-        "implantation_chance":
-            embryo.implantation_chance
+
+        "implantation_chance": embryo.implantation_chance
     }
 
 
 # =========================================================
 # GET EMBRYO
-#
-# ONLY DOCTOR CAN VIEW
+# ONLY DOCTOR
 # =========================================================
 
 @app.get("/embryos/{embryo_id}")
@@ -1304,14 +1600,12 @@ def get_embryo(
         models.Embryo.id == embryo_id
     ).first()
 
-
     if not embryo:
 
         raise HTTPException(
             status_code=404,
             detail="Embryo not found"
         )
-
 
     if embryo.doctor_id != doctor_user["user_id"]:
 
@@ -1320,15 +1614,21 @@ def get_embryo(
             detail="You can only access your own embryos"
         )
 
-
     return {
+
         "embryo_id": embryo.id,
+
         "patient_id": embryo.patient_id,
+
         "doctor_id": embryo.doctor_id,
+
         "image_path": embryo.image_path,
+
         "status": embryo.status,
+
         "embryo_grade": embryo.embryo_grade,
+
         "confidence": embryo.confidence,
-        "implantation_chance":
-            embryo.implantation_chance
+
+        "implantation_chance": embryo.implantation_chance
     }

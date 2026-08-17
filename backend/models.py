@@ -11,6 +11,10 @@ class Patient(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
+    # =====================================================
+    # BASIC INFORMATION
+    # =====================================================
+
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
 
@@ -25,6 +29,58 @@ class Patient(Base):
     state = Column(String(100))
     city = Column(String(100))
     address = Column(Text)
+
+    # =====================================================
+    # MEDICAL HISTORY
+    # =====================================================
+
+    medical_history = Column(Text, nullable=True)
+
+    current_problems = Column(Text, nullable=True)
+
+    previous_surgeries = Column(Text, nullable=True)
+
+    chronic_conditions = Column(Text, nullable=True)
+
+    allergies = Column(Text, nullable=True)
+
+    current_medications = Column(Text, nullable=True)
+
+    family_medical_history = Column(Text, nullable=True)
+
+    # =====================================================
+    # IVF / FERTILITY HISTORY
+    # =====================================================
+
+    previous_ivf_history = Column(Text, nullable=True)
+
+    previous_pregnancy_history = Column(Text, nullable=True)
+
+    infertility_duration = Column(String(100), nullable=True)
+
+    infertility_cause = Column(Text, nullable=True)
+
+    menstrual_history = Column(Text, nullable=True)
+
+    fertility_treatment_history = Column(Text, nullable=True)
+
+    # =====================================================
+    # DOCTOR NOTES
+    # =====================================================
+
+    doctor_notes = Column(Text, nullable=True)
+
+    # =====================================================
+    # EMERGENCY CONTACT
+    # =====================================================
+
+    emergency_contact_name = Column(String(150), nullable=True)
+
+    emergency_contact_phone = Column(String(30), nullable=True)
+
+    # =====================================================
+    # LOGIN
+    # =====================================================
 
     password = Column(String(255), nullable=False)
 
@@ -66,5 +122,7 @@ class Embryo(Base):
     status = Column(String(50), default="uploaded")
 
     embryo_grade = Column(String(50), nullable=True)
+
     confidence = Column(String(50), nullable=True)
+
     implantation_chance = Column(String(50), nullable=True)

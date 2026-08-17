@@ -17,7 +17,7 @@ export default function PatientLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_URL = "http://127.0.0.1:8000";
+  const API_URL = "/api";
 
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
@@ -42,12 +42,19 @@ export default function PatientLoginPage() {
         }
       );
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+      const data = contentType.includes("application/json")
+        ? await response.json()
+        : null;
 
       if (!response.ok) {
         throw new Error(
           data?.detail || "Invalid email or password."
         );
+      }
+
+      if (!data) {
+        throw new Error("The server returned an invalid login response.");
       }
 
       localStorage.setItem(

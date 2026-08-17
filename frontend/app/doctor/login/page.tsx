@@ -33,7 +33,7 @@ export default function DoctorLogin() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/doctors/login",
+        "/api/doctors/login",
         {
           method: "POST",
           headers: {
@@ -46,12 +46,19 @@ export default function DoctorLogin() {
         }
       );
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+      const data = contentType.includes("application/json")
+        ? await response.json()
+        : null;
 
       if (!response.ok) {
         throw new Error(
-          data.detail || "Invalid email or password"
+          data?.detail || "Invalid email or password"
         );
+      }
+
+      if (!data) {
+        throw new Error("The server returned an invalid login response.");
       }
 
       /*
