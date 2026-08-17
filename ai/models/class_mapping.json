@@ -1,0 +1,26 @@
+{
+    "EXP": [
+        0,
+        1,
+        2,
+        3,
+        4
+    ],
+    "ICM": [
+        0,
+        1,
+        2,
+        3
+    ],
+    "TE": [
+        0,
+        1,
+        2,
+        3
+    ],
+    "description": {
+        "EXP": "Embryo expansion score",
+        "ICM": "Inner cell mass score",
+        "TE": "Trophectoderm score"
+    }
+}

@@ -153,7 +153,7 @@ export default function DoctorReports() {
           <NavItem
             icon={<Stethoscope size={19} />}
             label="Dashboard"
-            href="/dashboard"
+            href="/doctor/dashboard"
           />
 
           <NavItem
@@ -279,7 +279,7 @@ export default function DoctorReports() {
           <button
             type="button"
             onClick={() =>
-              (window.location.href = "/dashboard")
+              (window.location.href = "/doctor/dashboard")
             }
             className="mb-6 flex items-center gap-2 text-sm font-medium text-[#77737a] transition hover:text-[#302a52]"
           >
@@ -371,7 +371,7 @@ export default function DoctorReports() {
                 <button
                   type="button"
                   onClick={() =>
-                    (window.location.href = "/dashboard")
+                    (window.location.href = "/doctor/dashboard")
                   }
                   className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#302a52] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#403866]"
                 >

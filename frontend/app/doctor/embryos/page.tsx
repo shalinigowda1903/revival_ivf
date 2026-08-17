@@ -158,7 +158,7 @@ export default function DoctorEmbryosPage() {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={() => (window.location.href = "/dashboard")}
+              onClick={() => (window.location.href = "/doctor/dashboard")}
               className="rounded-xl border border-[#ddd8d6] bg-[#faf9f8] px-4 py-2 text-sm font-semibold text-[#4a4650] hover:bg-white"
             >
               Dashboard

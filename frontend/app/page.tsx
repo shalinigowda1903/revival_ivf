@@ -132,11 +132,15 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#fafaf9] text-[#29282d]">
 
-      {/* HEADER */}
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#e7e5e2] bg-[#fafaf9]/95 backdrop-blur-xl">
         <div className="mx-auto flex h-[88px] max-w-[1500px] items-center justify-between px-6 lg:px-12">
 
           <a href="#home" className="flex items-center gap-3">
+
             <img
               src="/images/revival-ivf-logo.jpeg"
               alt="REVIVAL IVF"
@@ -152,11 +156,13 @@ export default function Home() {
                 AI-Powered Fertility Care
               </div>
             </div>
+
           </a>
 
           <nav className="hidden items-center gap-5 lg:flex">
             <a href="#home" className="nav-link">Home</a>
             <a href="#technology" className="nav-link">AI Technology</a>
+            <a href="#statistics" className="nav-link">Statistics</a>
             <a href="#treatments" className="nav-link">Treatments</a>
             <a href="#symptoms" className="nav-link">Symptoms</a>
             <a href="#infertility" className="nav-link">Infertility</a>
@@ -166,6 +172,7 @@ export default function Home() {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
+
             <a
               href="/patient/login"
               className="flex items-center gap-2 rounded-lg border border-[#d9d6d3] bg-white px-5 py-3 text-sm font-semibold text-[#444249] hover:bg-[#f3f2f0]"
@@ -181,18 +188,25 @@ export default function Home() {
               <Stethoscope size={16} />
               Doctor Login
             </a>
+
           </div>
         </div>
       </header>
 
-      {/* HERO */}
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
       <section id="home" className="overflow-hidden pt-[88px]">
+
         <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
 
           <div className="grid items-center gap-16 lg:grid-cols-2">
 
             <div>
+
               <div className="mb-7 flex items-center gap-3">
+
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#eeeaf2]">
                   <Sparkles size={17} className="text-[#554b78]" />
                 </div>
@@ -200,6 +214,7 @@ export default function Home() {
                 <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#77747a]">
                   AI-Powered Embryo Assessment
                 </span>
+
               </div>
 
               <h1 className="text-5xl font-semibold leading-tight tracking-tight text-[#302a52] sm:text-6xl lg:text-7xl">
@@ -216,6 +231,7 @@ export default function Home() {
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+
                 <a
                   href="#technology"
                   className="flex h-14 items-center justify-center gap-3 rounded-lg bg-[#302a52] px-7 text-sm font-semibold text-white hover:bg-[#403866]"
@@ -231,9 +247,11 @@ export default function Home() {
                   <Heart size={17} />
                   Explore IVF Journey
                 </a>
+
               </div>
 
               <div className="mt-9 flex flex-wrap gap-7 text-sm text-[#77747a]">
+
                 <span className="flex items-center gap-2">
                   <Brain size={16} />
                   AI-assisted analysis
@@ -248,27 +266,39 @@ export default function Home() {
                   <ShieldCheck size={16} />
                   Secure access
                 </span>
+
               </div>
+
             </div>
 
             <div className="mx-auto w-full max-w-xl">
+
               <div className="rounded-[28px] border border-[#dedbd8] bg-white p-5 shadow-xl">
+
                 <div className="overflow-hidden rounded-[20px] bg-[#f7f6f4]">
+
                   <img
-                    src="/images/revival_ivf_logo.jpeg"
+                    src="/images/revival-ivf-logo.jpeg"
                     alt="REVIVAL IVF"
                     className="w-full object-contain"
                   />
+
                 </div>
+
               </div>
+
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* INTRO */}
+      {/* =====================================================
+          INTRO
+      ===================================================== */}
+
       <section className="border-y border-[#e5e3e0] bg-white">
+
         <div className="mx-auto grid max-w-[1500px] md:grid-cols-3">
 
           <Intro
@@ -292,8 +322,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI TECHNOLOGY */}
-      <section id="technology" className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
+      {/* =====================================================
+          AI TECHNOLOGY
+      ===================================================== */}
+
+      <section
+        id="technology"
+        className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12"
+      >
 
         <Section
           eyebrow="AI Technology"
@@ -348,8 +384,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURES */}
+      {/* =====================================================
+          PLATFORM
+      ===================================================== */}
+
       <section className="border-y border-[#e5e3e0] bg-[#f5f4f2]">
+
         <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
 
           <Section
@@ -388,8 +428,143 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TREATMENTS */}
-      <section id="treatments" className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
+      {/* =====================================================
+          IVF STATISTICS
+          SAME REVIVAL IVF THEME
+      ===================================================== */}
+
+      <section
+        id="statistics"
+        className="border-y border-[#e5e3e0] bg-white"
+      >
+
+        <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
+
+          <Section
+            eyebrow="IVF Statistics"
+            title="The growing role of assisted reproductive care."
+            text="IVF has become an important part of modern fertility care. The statistics below provide a simple visual overview of the growth of IVF treatment over the years."
+          />
+
+          <div className="mt-14 grid gap-5 lg:grid-cols-4">
+
+            <StatCard
+              year="1980s"
+              value="Early"
+              title="IVF adoption"
+              text="IVF began expanding from pioneering clinical work into wider fertility care."
+            />
+
+            <StatCard
+              year="1990s"
+              value="Growing"
+              title="Treatment access"
+              text="Assisted reproductive technologies became more widely available in fertility centres."
+            />
+
+            <StatCard
+              year="2000s"
+              value="Expanded"
+              title="IVF development"
+              text="Improved laboratory techniques contributed to broader use of IVF and embryo culture."
+            />
+
+            <StatCard
+              year="Today"
+              value="Advanced"
+              title="AI-supported care"
+              text="Modern fertility care increasingly combines imaging, data and emerging AI technologies."
+            />
+
+          </div>
+
+          {/* Simple visual trend */}
+
+          <div className="mt-10 rounded-3xl border border-[#dedbd8] bg-[#f5f4f2] p-8">
+
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+              <div className="max-w-xl">
+
+                <div className="flex items-center gap-3">
+
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#efedf2] text-[#40385f]">
+                    <BarChart3 size={22} />
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#817e83]">
+                      IVF Over The Years
+                    </p>
+
+                    <h3 className="mt-1 text-2xl font-semibold text-[#302a52]">
+                      From laboratory innovation to intelligent fertility care
+                    </h3>
+                  </div>
+
+                </div>
+
+                <p className="mt-5 text-sm leading-7 text-[#69676d]">
+                  IVF has evolved considerably over several decades. Advances
+                  in reproductive medicine, embryology, imaging and laboratory
+                  technology continue to shape modern fertility treatment.
+                </p>
+
+              </div>
+
+              <div className="w-full max-w-xl">
+
+                <div className="flex h-52 items-end gap-4 rounded-2xl border border-[#dedbd8] bg-white p-6">
+
+                  <TrendBar
+                    label="1980s"
+                    height="30%"
+                  />
+
+                  <TrendBar
+                    label="1990s"
+                    height="45%"
+                  />
+
+                  <TrendBar
+                    label="2000s"
+                    height="62%"
+                  />
+
+                  <TrendBar
+                    label="2010s"
+                    height="78%"
+                  />
+
+                  <TrendBar
+                    label="Today"
+                    height="94%"
+                    active
+                  />
+
+                </div>
+
+                <p className="mt-3 text-center text-xs text-[#858288]">
+                  Illustrative progression — not clinical or population data.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* =====================================================
+          TREATMENTS
+      ===================================================== */}
+
+      <section
+        id="treatments"
+        className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12"
+      >
 
         <Section
           eyebrow="Fertility Treatments"
@@ -400,6 +575,7 @@ export default function Home() {
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
 
           {treatments.map((item) => (
+
             <div
               key={item.title}
               className="rounded-[20px] border border-[#dedbd8] bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl"
@@ -426,35 +602,51 @@ export default function Home() {
                 }
                 className="mt-5 flex w-full items-center justify-between border-t border-[#ebe8e5] pt-5 text-sm font-semibold text-[#8a6475]"
               >
+
                 <span>
                   {openTreatment === item.title ? "Show less" : "Learn more"}
                 </span>
 
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#efedf2] text-[#40385f]">
+
                   {openTreatment === item.title ? (
                     <Minus size={15} />
                   ) : (
                     <Plus size={15} />
                   )}
+
                 </span>
+
               </button>
 
               {openTreatment === item.title && (
+
                 <div className="mt-5 border-t border-[#ebe8e5] pt-5">
+
                   <p className="text-sm leading-7 text-[#69676d]">
                     {item.details}
                   </p>
+
                 </div>
+
               )}
 
             </div>
+
           ))}
 
         </div>
       </section>
 
-      {/* SYMPTOMS */}
-      <section id="symptoms" className="border-y border-[#e5e3e0] bg-[#f5f4f2]">
+      {/* =====================================================
+          SYMPTOMS
+      ===================================================== */}
+
+      <section
+        id="symptoms"
+        className="border-y border-[#e5e3e0] bg-[#f5f4f2]"
+      >
+
         <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
 
           <Section
@@ -465,63 +657,147 @@ export default function Home() {
 
           <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
 
-            <Symptom title="Irregular Periods" text="Changes in menstrual regularity may sometimes be associated with ovulation or hormonal factors." />
+            <Symptom
+              title="Irregular Periods"
+              text="Changes in menstrual regularity may sometimes be associated with ovulation or hormonal factors."
+            />
 
-            <Symptom title="Difficulty Conceiving" text="Not achieving pregnancy after a period of regular unprotected intercourse may warrant fertility evaluation." />
+            <Symptom
+              title="Difficulty Conceiving"
+              text="Not achieving pregnancy after a period of regular unprotected intercourse may warrant fertility evaluation."
+            />
 
-            <Symptom title="Hormonal Concerns" text="Certain hormonal conditions can affect ovulation, reproductive function or sperm production." />
+            <Symptom
+              title="Hormonal Concerns"
+              text="Certain hormonal conditions can affect ovulation, reproductive function or sperm production."
+            />
 
-            <Symptom title="Recurrent Pregnancy Loss" text="Repeated pregnancy loss should be discussed with an appropriate healthcare professional." />
+            <Symptom
+              title="Recurrent Pregnancy Loss"
+              text="Repeated pregnancy loss should be discussed with an appropriate healthcare professional."
+            />
 
-            <Symptom title="Changes in Sperm Health" text="Sperm count, movement and morphology can be important factors in male fertility." />
+            <Symptom
+              title="Changes in Sperm Health"
+              text="Sperm count, movement and morphology can be important factors in male fertility."
+            />
 
-            <Symptom title="Unexplained Fertility Concerns" text="Sometimes fertility challenges occur even when an obvious cause is not immediately identified." />
+            <Symptom
+              title="Unexplained Fertility Concerns"
+              text="Sometimes fertility challenges occur even when an obvious cause is not immediately identified."
+            />
 
           </div>
 
         </div>
       </section>
 
-      {/* MALE AND FEMALE */}
-      <section id="infertility" className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
+      {/* =====================================================
+          INFERTILITY
+          MATCHED TO REVIVAL IVF THEME
+      ===================================================== */}
 
-        <Section
-          eyebrow="Infertility"
-          title="Fertility can involve both male and female factors."
-          text="Infertility may be associated with factors affecting either partner, both partners, or sometimes no immediately identifiable cause."
-        />
+      <section
+        id="infertility"
+        className="border-b border-[#e5e3e0] bg-white"
+      >
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+        <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
 
-          <InfoCard
-            icon={<Heart size={23} />}
-            title="Female infertility factors"
-            items={[
-              "Ovulation-related factors",
-              "Age-related changes in fertility",
-              "Fallopian tube factors",
-              "Endometriosis and other reproductive conditions",
-              "Uterine or cervical factors",
-            ]}
-          />
+          <div className="max-w-4xl">
 
-          <InfoCard
-            icon={<Users size={23} />}
-            title="Male infertility factors"
-            items={[
-              "Low sperm concentration",
-              "Reduced sperm movement",
-              "Abnormal sperm morphology",
-              "Hormonal or reproductive factors",
-              "Lifestyle and other health-related factors",
-            ]}
-          />
+            <div className="flex items-center gap-3">
+
+              <span className="h-px w-10 bg-[#bd5c83]" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#817e83]">
+                Infertility
+              </span>
+
+            </div>
+
+            <h2 className="mt-5 text-4xl font-semibold leading-tight text-[#302a52] sm:text-5xl">
+
+              Infertility is not caused by
+              <span className="text-[#bd5c83]"> one side alone.</span>
+
+            </h2>
+
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[#69676d]">
+              Fertility can involve factors affecting the female partner,
+              the male partner, both partners, or sometimes no immediately
+              identifiable cause. A proper evaluation considers both partners
+              rather than placing responsibility on one person.
+            </p>
+
+          </div>
+
+          <div className="mt-14 grid gap-6 lg:grid-cols-2">
+
+            <InfertilityCard
+              icon={<Heart size={23} />}
+              label="Female Factors"
+              title="Factors that may affect female fertility"
+              items={[
+                "Ovulation-related factors",
+                "Age-related changes in fertility",
+                "Fallopian tube factors",
+                "Endometriosis and other reproductive conditions",
+                "Uterine or cervical factors",
+              ]}
+            />
+
+            <InfertilityCard
+              icon={<Users size={23} />}
+              label="Male Factors"
+              title="Factors that may affect male fertility"
+              items={[
+                "Low sperm concentration",
+                "Reduced sperm movement",
+                "Abnormal sperm morphology",
+                "Hormonal or reproductive factors",
+                "Lifestyle and other health-related factors",
+              ]}
+            />
+
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-[#dedbd8] bg-[#f5f4f2] p-8">
+
+            <div className="flex flex-col gap-5 md:flex-row md:items-center">
+
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#efedf2] text-[#40385f]">
+                <ShieldCheck size={24} />
+              </div>
+
+              <div>
+
+                <h3 className="text-xl font-semibold text-[#302a52]">
+                  A balanced fertility evaluation matters.
+                </h3>
+
+                <p className="mt-2 text-sm leading-7 text-[#69676d]">
+                  Fertility assessment should consider both partners and
+                  relevant medical factors. The appropriate evaluation and
+                  treatment plan should be determined by a qualified
+                  healthcare professional.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
       </section>
 
-      {/* IVF JOURNEY */}
+      {/* =====================================================
+          IVF JOURNEY
+      ===================================================== */}
+
       <section id="journey" className="border-y border-[#e5e3e0] bg-white">
+
         <div className="mx-auto max-w-[1100px] px-6 py-24 lg:px-12">
 
           <div className="text-center">
@@ -533,42 +809,96 @@ export default function Home() {
             </p>
 
             <h2 className="mt-4 text-4xl font-semibold text-[#302a52] sm:text-5xl">
+
               The IVF journey,
               <span className="text-[#bd5c83]"> step by step.</span>
+
             </h2>
 
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#69676d]">
               A simplified overview of the major stages involved in assisted
               reproductive treatment.
             </p>
+
           </div>
 
           <div className="mt-14 space-y-4">
 
-            <Journey number="01" icon={<Users size={20} />} title="Consultation & Planning" text="The fertility specialist evaluates the patient's history, fertility factors and treatment plan." />
+            <Journey
+              number="01"
+              icon={<Users size={20} />}
+              title="Consultation & Planning"
+              text="The fertility specialist evaluates the patient's history, fertility factors and treatment plan."
+            />
 
-            <Journey number="02" icon={<Syringe size={20} />} title="Ovarian Stimulation" text="Medication may be used to stimulate the ovaries and encourage development of multiple follicles." />
+            <Journey
+              number="02"
+              icon={<Syringe size={20} />}
+              title="Ovarian Stimulation"
+              text="Medication may be used to stimulate the ovaries and encourage development of multiple follicles."
+            />
 
-            <Journey number="03" icon={<Egg size={20} />} title="Egg Retrieval" text="Mature eggs are collected through a controlled clinical procedure." />
+            <Journey
+              number="03"
+              icon={<Egg size={20} />}
+              title="Egg Retrieval"
+              text="Mature eggs are collected through a controlled clinical procedure."
+            />
 
-            <Journey number="04" icon={<Users size={20} />} title="Sperm Collection" text="A sperm sample is collected and prepared for fertilization." />
+            <Journey
+              number="04"
+              icon={<Users size={20} />}
+              title="Sperm Collection"
+              text="A sperm sample is collected and prepared for fertilization."
+            />
 
-            <Journey number="05" icon={<Heart size={20} />} title="Fertilization" text="Egg and sperm are combined in the laboratory. ICSI may be used when clinically appropriate." />
+            <Journey
+              number="05"
+              icon={<Heart size={20} />}
+              title="Fertilization"
+              text="Egg and sperm are combined in the laboratory. ICSI may be used when clinically appropriate."
+            />
 
-            <Journey number="06" icon={<Baby size={20} />} title="Embryo Development" text="Successfully fertilized eggs develop into embryos while embryologists monitor their progression." />
+            <Journey
+              number="06"
+              icon={<Baby size={20} />}
+              title="Embryo Development"
+              text="Successfully fertilized eggs develop into embryos while embryologists monitor their progression."
+            />
 
-            <Journey highlight number="07" icon={<Microscope size={20} />} title="AI Embryo Assessment" text="REVIVAL IVF is designed to support embryo image assessment using artificial intelligence and structured analysis." />
+            <Journey
+              highlight
+              number="07"
+              icon={<Microscope size={20} />}
+              title="AI Embryo Assessment"
+              text="REVIVAL IVF is designed to support embryo image assessment using artificial intelligence and structured analysis."
+            />
 
-            <Journey number="08" icon={<Stethoscope size={20} />} title="Embryo Transfer" text="The fertility specialist selects the appropriate embryo and performs the embryo transfer." />
+            <Journey
+              number="08"
+              icon={<Stethoscope size={20} />}
+              title="Embryo Transfer"
+              text="The fertility specialist selects the appropriate embryo and performs the embryo transfer."
+            />
 
-            <Journey number="09" icon={<Baby size={20} />} title="Pregnancy Monitoring" text="Following transfer, appropriate clinical monitoring and pregnancy testing are performed." />
+            <Journey
+              number="09"
+              icon={<Baby size={20} />}
+              title="Pregnancy Monitoring"
+              text="Following transfer, appropriate clinical monitoring and pregnancy testing are performed."
+            />
 
           </div>
+
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* =====================================================
+          FAQ
+      ===================================================== */}
+
       <section id="faq" className="bg-[#f5f4f2]">
+
         <div className="mx-auto max-w-[1000px] px-6 py-24 lg:px-12">
 
           <div className="text-center">
@@ -580,8 +910,10 @@ export default function Home() {
             </p>
 
             <h2 className="mt-4 text-4xl font-semibold text-[#302a52] sm:text-5xl">
+
               Questions,
               <span className="text-[#bd5c83]"> answered.</span>
+
             </h2>
 
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#69676d]">
@@ -594,6 +926,7 @@ export default function Home() {
           <div className="mt-12 space-y-3">
 
             {faqs.map((faq, index) => (
+
               <div
                 key={faq.question}
                 className="overflow-hidden rounded-2xl border border-[#dedbd8] bg-white"
@@ -612,32 +945,44 @@ export default function Home() {
                   </span>
 
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#efedf2] text-[#40385f]">
+
                     {openFaq === index ? (
                       <Minus size={16} />
                     ) : (
                       <Plus size={16} />
                     )}
+
                   </span>
 
                 </button>
 
                 {openFaq === index && (
+
                   <div className="border-t border-[#ebe8e5] px-6 pb-6 pt-5">
+
                     <p className="text-sm leading-7 text-[#69676d]">
                       {faq.answer}
                     </p>
+
                   </div>
+
                 )}
 
               </div>
+
             ))}
 
           </div>
+
         </div>
       </section>
 
-      {/* RESPONSIBLE AI */}
+      {/* =====================================================
+          RESPONSIBLE AI
+      ===================================================== */}
+
       <section className="bg-[#302a52]">
+
         <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
 
           <div className="grid gap-12 lg:grid-cols-2">
@@ -645,17 +990,23 @@ export default function Home() {
             <div>
 
               <div className="flex items-center gap-3">
+
                 <ShieldCheck size={21} className="text-[#d995af]" />
+
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c9c5d1]">
                   Responsible AI
                 </span>
+
               </div>
 
               <h2 className="mt-6 text-4xl font-semibold text-white sm:text-5xl">
+
                 Technology should support care,
+
                 <span className="block text-[#d995af]">
                   not replace it.
                 </span>
+
               </h2>
 
               <p className="mt-6 max-w-2xl text-base leading-8 text-[#d4d1db]">
@@ -694,12 +1045,19 @@ export default function Home() {
               />
 
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ABOUT */}
-      <section id="about" className="mx-auto max-w-[1100px] px-6 py-24 text-center lg:px-12">
+      {/* =====================================================
+          ABOUT
+      ===================================================== */}
+
+      <section
+        id="about"
+        className="mx-auto max-w-[1100px] px-6 py-24 text-center lg:px-12"
+      >
 
         <Dna size={31} className="mx-auto text-[#bd5c83]" />
 
@@ -708,10 +1066,13 @@ export default function Home() {
         </p>
 
         <h2 className="mt-4 text-4xl font-semibold text-[#302a52] sm:text-5xl">
+
           Renewing hope.
+
           <span className="block text-[#bd5c83]">
             Creating life.
           </span>
+
         </h2>
 
         <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-[#69676d]">
@@ -722,8 +1083,15 @@ export default function Home() {
 
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="border-t border-[#e5e3e0] bg-[#f5f4f2]">
+      {/* =====================================================
+          CONTACT
+      ===================================================== */}
+
+      <section
+        id="contact"
+        className="border-t border-[#e5e3e0] bg-[#f5f4f2]"
+      >
+
         <div className="mx-auto max-w-[1500px] px-6 py-24 lg:px-12">
 
           <div className="grid gap-12 lg:grid-cols-2">
@@ -731,17 +1099,23 @@ export default function Home() {
             <div>
 
               <div className="flex items-center gap-3">
+
                 <span className="h-px w-10 bg-[#bd5c83]" />
+
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#817e83]">
                   Contact Us
                 </span>
+
               </div>
 
               <h2 className="mt-5 text-4xl font-semibold text-[#302a52] sm:text-5xl">
+
                 Let's take the next step
+
                 <span className="block text-[#bd5c83]">
                   together.
                 </span>
+
               </h2>
 
               <p className="mt-6 max-w-xl text-base leading-8 text-[#69676d]">
@@ -751,13 +1125,26 @@ export default function Home() {
 
               <div className="mt-9 space-y-5">
 
-                <Contact icon={<Phone size={19} />} title="Phone" value="+91 XXXXX XXXXX" />
+                <Contact
+                  icon={<Phone size={19} />}
+                  title="Phone"
+                  value="+91 XXXXX XXXXX"
+                />
 
-                <Contact icon={<Mail size={19} />} title="Email" value="contact@revivalivf.com" />
+                <Contact
+                  icon={<Mail size={19} />}
+                  title="Email"
+                  value="contact@revivalivf.com"
+                />
 
-                <Contact icon={<MapPin size={19} />} title="Location" value="Bengaluru, Karnataka, India" />
+                <Contact
+                  icon={<MapPin size={19} />}
+                  title="Location"
+                  value="Bengaluru, Karnataka, India"
+                />
 
               </div>
+
             </div>
 
             <div className="rounded-3xl border border-[#dedbd8] bg-white p-8">
@@ -769,6 +1156,7 @@ export default function Home() {
                 </div>
 
                 <div>
+
                   <p className="text-xs uppercase tracking-[0.15em] text-[#918d92]">
                     Fertility Care
                   </p>
@@ -776,6 +1164,7 @@ export default function Home() {
                   <h3 className="mt-1 text-xl font-semibold text-[#302a52]">
                     Connect with REVIVAL IVF
                   </h3>
+
                 </div>
 
               </div>
@@ -809,21 +1198,26 @@ export default function Home() {
                 </button>
 
               </div>
+
             </div>
 
           </div>
+
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* =====================================================
+          FOOTER
+      ===================================================== */}
+
       <footer className="border-t border-[#e5e3e0] bg-white">
+
         <div className="mx-auto flex max-w-[1500px] items-center justify-between px-6 py-10 lg:px-12">
 
           <div className="flex items-center gap-3">
 
-  
-
             <div>
+
               <p className="font-semibold text-[#302a52]">
                 REVIVAL IVF
               </p>
@@ -831,6 +1225,7 @@ export default function Home() {
               <p className="mt-1 text-xs text-[#858288]">
                 Renewing Hope, Creating Life
               </p>
+
             </div>
 
           </div>
@@ -840,6 +1235,7 @@ export default function Home() {
           </p>
 
         </div>
+
       </footer>
 
     </main>
@@ -847,9 +1243,9 @@ export default function Home() {
 }
 
 
-/* =========================
-   SMALL COMPONENTS
-========================= */
+/* =========================================================
+   SECTION
+========================================================= */
 
 function Section({
   eyebrow,
@@ -862,11 +1258,15 @@ function Section({
 }) {
   return (
     <div className="max-w-3xl">
+
       <div className="flex items-center gap-3">
+
         <span className="h-px w-10 bg-[#bd5c83]" />
+
         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#817e83]">
           {eyebrow}
         </span>
+
       </div>
 
       <h2 className="mt-5 text-4xl font-semibold leading-tight text-[#302a52] sm:text-5xl">
@@ -876,10 +1276,15 @@ function Section({
       <p className="mt-5 text-base leading-8 text-[#6b696f]">
         {text}
       </p>
+
     </div>
   );
 }
 
+
+/* =========================================================
+   INTRO
+========================================================= */
 
 function Intro({
   icon,
@@ -892,6 +1297,7 @@ function Intro({
 }) {
   return (
     <div className="border-b border-[#e5e3e0] p-8 md:border-b-0 md:border-r">
+
       <div className="flex gap-4">
 
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#efedf2] text-[#40385f]">
@@ -899,6 +1305,7 @@ function Intro({
         </div>
 
         <div>
+
           <h3 className="text-lg font-semibold text-[#302a52]">
             {title}
           </h3>
@@ -906,13 +1313,19 @@ function Intro({
           <p className="mt-2 text-sm leading-7 text-[#6b696f]">
             {text}
           </p>
+
         </div>
 
       </div>
+
     </div>
   );
 }
 
+
+/* =========================================================
+   TECHNOLOGY
+========================================================= */
 
 function Tech({
   icon,
@@ -953,6 +1366,10 @@ function Tech({
 }
 
 
+/* =========================================================
+   FEATURE
+========================================================= */
+
 function Feature({
   icon,
   title,
@@ -981,6 +1398,89 @@ function Feature({
   );
 }
 
+
+/* =========================================================
+   STATISTICS CARD
+========================================================= */
+
+function StatCard({
+  year,
+  value,
+  title,
+  text,
+}: {
+  year: string;
+  value: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-[#dedbd8] bg-white p-7 transition hover:-translate-y-1 hover:shadow-lg">
+
+      <div className="flex items-center justify-between">
+
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#efedf2] text-[#40385f]">
+          <BarChart3 size={21} />
+        </div>
+
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#aaa6ab]">
+          {year}
+        </span>
+
+      </div>
+
+      <p className="mt-7 text-3xl font-semibold text-[#302a52]">
+        {value}
+      </p>
+
+      <h3 className="mt-2 text-lg font-semibold text-[#bd5c83]">
+        {title}
+      </h3>
+
+      <p className="mt-3 text-sm leading-7 text-[#69676d]">
+        {text}
+      </p>
+
+    </div>
+  );
+}
+
+
+/* =========================================================
+   TREND BAR
+========================================================= */
+
+function TrendBar({
+  label,
+  height,
+  active = false,
+}: {
+  label: string;
+  height: string;
+  active?: boolean;
+}) {
+  return (
+    <div className="flex h-full flex-1 flex-col justify-end">
+
+      <div
+        className={`w-full rounded-t-lg ${
+          active ? "bg-[#bd5c83]" : "bg-[#40385f]"
+        }`}
+        style={{ height }}
+      />
+
+      <p className="mt-3 text-center text-[10px] font-semibold text-[#77747a]">
+        {label}
+      </p>
+
+    </div>
+  );
+}
+
+
+/* =========================================================
+   SYMPTOM
+========================================================= */
 
 function Symptom({
   title,
@@ -1013,52 +1513,74 @@ function Symptom({
 }
 
 
-function InfoCard({
+/* =========================================================
+   INFERTILITY CARD
+========================================================= */
+
+function InfertilityCard({
   icon,
+  label,
   title,
   items,
 }: {
   icon: React.ReactNode;
+  label: string;
   title: string;
   items: string[];
 }) {
   return (
-    <div className="rounded-3xl border border-[#dedbd8] bg-white p-8">
+    <div className="rounded-3xl border border-[#dedbd8] bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between">
 
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#efedf2] text-[#40385f]">
           {icon}
         </div>
 
-        <h3 className="text-2xl font-semibold text-[#302a52]">
-          {title}
-        </h3>
+        <span className="rounded-full bg-[#f3e8ed] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#9b4c70]">
+          {label}
+        </span>
 
       </div>
+
+      <h3 className="mt-6 text-2xl font-semibold text-[#302a52]">
+        {title}
+      </h3>
 
       <div className="mt-8 space-y-4">
 
         {items.map((item) => (
-          <div key={item} className="flex items-start gap-3">
 
-            <ShieldCheck
-              size={17}
-              className="mt-1 shrink-0 text-[#554b78]"
-            />
+          <div
+            key={item}
+            className="flex items-start gap-3"
+          >
+
+            <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#efedf2]">
+              <ShieldCheck
+                size={13}
+                className="text-[#554b78]"
+              />
+            </div>
 
             <p className="text-sm leading-7 text-[#69676d]">
               {item}
             </p>
 
           </div>
+
         ))}
 
       </div>
+
     </div>
   );
 }
 
+
+/* =========================================================
+   JOURNEY
+========================================================= */
 
 function Journey({
   number,
@@ -1111,9 +1633,11 @@ function Journey({
             </div>
 
             {highlight && (
+
               <span className="rounded-full bg-[#ead2dc] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#9b4c70]">
                 REVIVAL AI
               </span>
+
             )}
 
           </div>
@@ -1125,10 +1649,15 @@ function Journey({
         </div>
 
       </div>
+
     </div>
   );
 }
 
+
+/* =========================================================
+   DARK BOX
+========================================================= */
 
 function DarkBox({
   icon,
@@ -1159,6 +1688,10 @@ function DarkBox({
 }
 
 
+/* =========================================================
+   CONTACT
+========================================================= */
+
 function Contact({
   icon,
   title,
@@ -1176,6 +1709,7 @@ function Contact({
       </div>
 
       <div>
+
         <p className="text-[11px] font-semibold uppercase tracking-wider text-[#918d92]">
           {title}
         </p>
@@ -1183,6 +1717,7 @@ function Contact({
         <p className="mt-1 text-sm font-medium text-[#444249]">
           {value}
         </p>
+
       </div>
 
     </div>
