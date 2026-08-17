@@ -1,0 +1,28 @@
+# IVF dataset
+ai/dataset/images/
+ai/dataset/*.csv
+ai/dataset/*.xlsx
+ai/dataset/*.zip
+
+# ML models
+*.pth
+*.pt
+*.h5
+*.keras
+
+# Grad-CAM
+**/gradcam/
+**/*_gradcam/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Next.js
+frontend/node_modules/
+frontend/.next/
+
+# Environment
+.env
+.env.local
