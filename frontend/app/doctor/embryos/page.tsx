@@ -3,7 +3,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FileImage, ImageUp, LogOut, ShieldCheck, UploadCloud } from "lucide-react";
 
-const API_URL = "api/";
+const API_URL = "/api";
 
 type EmbryoRecord = {
   embryo_id: number;

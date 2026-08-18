@@ -1,8 +1,16 @@
+# =========================================================
+# auth.py
+# =========================================================
+
 from datetime import datetime, timedelta, timezone
 
 from jose import JWTError, jwt
 
-from fastapi import Depends, HTTPException, status
+from fastapi import (
+    Depends,
+    HTTPException,
+    status
+)
 
 from fastapi.security import (
     HTTPBearer,
@@ -32,7 +40,10 @@ security = HTTPBearer()
 # CREATE ACCESS TOKEN
 # =========================================================
 
-def create_access_token(user_id: int, role: str):
+def create_access_token(
+    user_id: int,
+    role: str
+):
 
     now = datetime.now(timezone.utc)
 
@@ -47,13 +58,11 @@ def create_access_token(user_id: int, role: str):
         "exp": int(expire.timestamp())
     }
 
-    token = jwt.encode(
+    return jwt.encode(
         payload,
         SECRET_KEY,
         algorithm=ALGORITHM
     )
-
-    return token
 
 
 # =========================================================
@@ -61,7 +70,9 @@ def create_access_token(user_id: int, role: str):
 # =========================================================
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(
+        security
+    )
 ):
 
     token = credentials.credentials
@@ -85,7 +96,10 @@ def get_current_user(
                 detail="User ID missing from token"
             )
 
-        if role not in ["doctor", "patient"]:
+        if role not in [
+            "doctor",
+            "patient"
+        ]:
 
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -117,7 +131,9 @@ def get_current_user(
 # =========================================================
 
 def require_doctor(
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(
+        get_current_user
+    )
 ):
 
     if current_user["role"] != "doctor":
@@ -135,7 +151,9 @@ def require_doctor(
 # =========================================================
 
 def require_patient(
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(
+        get_current_user
+    )
 ):
 
     if current_user["role"] != "patient":

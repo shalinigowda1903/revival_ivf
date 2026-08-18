@@ -1,38 +1,30 @@
 "use client";
 
 import { FormEvent, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Upload, AlertCircle, CheckCircle2 } from "lucide-react";
 
-const API_URL = "api/";
+const API_URL = "/api";
 
 export default function DoctorUploadPage() {
+  const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
-  const [patientId, setPatientId] = useState<number | string>("");
+  const [patientId, setPatientId] = useState<number | string>(
+    () => searchParams.get("patient_id") || ""
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [doctors, setDoctors] = useState<any[]>([]);
 
   useEffect(() => {
-    // Load doctor info on mount
-    loadDoctorInfo();
-  }, []);
+    const token =
+      localStorage.getItem("doctor_token") ||
+      sessionStorage.getItem("doctor_token");
 
-  async function loadDoctorInfo() {
-    try {
-      const token =
-        localStorage.getItem("doctor_token") ||
-        sessionStorage.getItem("doctor_token");
-
-      if (!token) {
-        setError("Authentication required. Please log in again.");
-        setTimeout(() => (window.location.href = "/doctor/login"), 2000);
-        return;
-      }
-    } catch (err) {
-      console.error("Error loading doctor info:", err);
+    if (!token) {
+      setTimeout(() => (window.location.href = "/doctor/login"), 2000);
     }
-  }
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
