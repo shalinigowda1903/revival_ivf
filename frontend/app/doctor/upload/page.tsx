@@ -1,12 +1,28 @@
 "use client";
 
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Upload, AlertCircle, CheckCircle2 } from "lucide-react";
 
 const API_URL = "/api";
 
 export default function DoctorUploadPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#f7f7f5] p-6 text-[#2f2e33]">
+          <div className="mx-auto max-w-2xl rounded-3xl border border-[#dfdcd9] bg-white p-8 shadow-sm">
+            <p className="text-sm text-[#5a555d]">Loading upload form...</p>
+          </div>
+        </main>
+      }
+    >
+      <DoctorUploadPageContent />
+    </Suspense>
+  );
+}
+
+function DoctorUploadPageContent() {
   const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
   const [patientId, setPatientId] = useState<number | string>(

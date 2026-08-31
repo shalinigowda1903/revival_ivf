@@ -40,8 +40,12 @@ export default function DoctorEmbryosPage() {
       return;
     }
 
-    setToken(selectedToken);
-    loadEmbryos(selectedToken, patientId);
+    const timer = window.setTimeout(() => {
+      setToken(selectedToken);
+      void loadEmbryos(selectedToken, patientId);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   async function loadEmbryos(currentToken: string, patientValue: string) {

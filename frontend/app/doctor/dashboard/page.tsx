@@ -21,7 +21,7 @@ import {
   X,
 } from "lucide-react";
 
-const API_URL = "api/";
+const API_URL = "/api";
 
 type Embryo = {
   embryo_id: number;
@@ -116,7 +116,11 @@ export default function DoctorDashboard() {
   }
 
   useEffect(() => {
-    loadDashboard();
+    const timer = window.setTimeout(() => {
+      void loadDashboard();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   function logout() {

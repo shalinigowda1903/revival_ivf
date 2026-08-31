@@ -26,3 +26,8 @@ frontend/.next/
 # Environment
 .env
 .env.local
+# Local database and uploaded images
+*.db
+*.sqlite
+*.sqlite3
+backend/uploads/

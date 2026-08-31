@@ -51,16 +51,20 @@ export default function DoctorReports() {
       return;
     }
 
-    setDoctor({
-      id: storage.getItem("doctor_id") || "",
-      firstName:
-        storage.getItem("doctor_first_name") || "Doctor",
-      lastName:
-        storage.getItem("doctor_last_name") || "",
-      email:
-        storage.getItem("doctor_email") || "",
-      role,
-    });
+    const timer = window.setTimeout(() => {
+      setDoctor({
+        id: storage.getItem("doctor_id") || "",
+        firstName:
+          storage.getItem("doctor_first_name") || "Doctor",
+        lastName:
+          storage.getItem("doctor_last_name") || "",
+        email:
+          storage.getItem("doctor_email") || "",
+        role,
+      });
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   const handleLogout = () => {

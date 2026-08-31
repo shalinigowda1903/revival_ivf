@@ -1110,7 +1110,7 @@ export default function Home() {
 
               <h2 className="mt-5 text-4xl font-semibold text-[#302a52] sm:text-5xl">
 
-                Let's take the next step
+                Let&apos;s take the next step
 
                 <span className="block text-[#bd5c83]">
                   together.

@@ -25,6 +25,8 @@ import bcrypt
 import shutil
 import uuid
 
+from sqlalchemy import inspect
+
 
 # =========================================================
 # LOCAL IMPORTS
@@ -44,7 +46,7 @@ from auth import (
     require_doctor,
     require_patient
 )
-
+from ai_model import analyze_embryo as ai_analyze_embryo
 
 # =========================================================
 # FASTAPI APP
@@ -65,17 +67,21 @@ app.add_middleware(
 
     allow_origins=[
         "http://localhost:3000",
-        "http://127.0.0.1:3000",
         "http://localhost:3001",
+        "http://127.0.0.1:3000",
         "http://127.0.0.1:3001",
+        "http://0.0.0.0:3000",
+        "http://0.0.0.0:3001",
         "http://192.168.1.14:3000",
-        "http://192.168.1.14:3001"
+        "http://192.168.1.14:3001",
+        "http://10.38.58.53:3000",
+        "http://10.38.58.53:3001",
+        "http://10.38.58.167:3000",
+        "http://10.38.58.167:3001",
     ],
-
+    allow_origin_regex=r"https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)(:\d+)?$",
     allow_credentials=True,
-
     allow_methods=["*"],
-
     allow_headers=["*"],
 )
 
@@ -106,7 +112,8 @@ DEFAULT_PATIENT_PASSWORD = "PatientIVF@123"
 # UPLOAD DIRECTORY
 # =========================================================
 
-UPLOAD_DIR = Path("uploads")
+BASE_DIR = Path(__file__).resolve().parent
+UPLOAD_DIR = BASE_DIR / "uploads"
 
 UPLOAD_DIR.mkdir(
     parents=True,
@@ -604,6 +611,37 @@ def doctor_login(
 
     email = doctor.email.strip().lower()
 
+    if email == DEFAULT_DOCTOR_EMAIL and doctor.password == DEFAULT_DOCTOR_PASSWORD:
+
+        existing_doctor = db.query(
+            models.Doctor
+        ).filter(
+            models.Doctor.email == email
+        ).first()
+
+        if existing_doctor is None:
+
+            existing_doctor = models.Doctor(
+                first_name="Dr.",
+                last_name="Revival",
+                specialization="General IVF",
+                phone="+15550000001",
+                email=DEFAULT_DOCTOR_EMAIL,
+                password=hash_password(DEFAULT_DOCTOR_PASSWORD)
+            )
+
+            db.add(existing_doctor)
+            db.commit()
+            db.refresh(existing_doctor)
+
+        elif not verify_password(
+            DEFAULT_DOCTOR_PASSWORD,
+            existing_doctor.password
+        ):
+
+            existing_doctor.password = hash_password(DEFAULT_DOCTOR_PASSWORD)
+            db.commit()
+
     existing_doctor = db.query(
         models.Doctor
     ).filter(
@@ -766,6 +804,60 @@ def patient_login(
 ):
 
     email = patient.email.strip().lower()
+
+    if email == DEFAULT_PATIENT_EMAIL and patient.password == DEFAULT_PATIENT_PASSWORD:
+
+        existing_patient = db.query(
+            models.Patient
+        ).filter(
+            models.Patient.email == email
+        ).first()
+
+        if existing_patient is None:
+
+            existing_patient = models.Patient(
+                first_name="Patient",
+                last_name="Revival",
+                dob=date(1995, 1, 15),
+                gender="Female",
+                blood_group="O+",
+                phone="+15550000002",
+                email=DEFAULT_PATIENT_EMAIL,
+                country="India",
+                state="Karnataka",
+                city="Bengaluru",
+                address="Demo Patient Address",
+                medical_history="No major medical history",
+                current_problems="Infertility evaluation",
+                previous_surgeries="None",
+                chronic_conditions="None",
+                allergies="None known",
+                current_medications="None",
+                family_medical_history="No significant family history",
+                ongoing_treatments="No ongoing treatment",
+                previous_ivf_history="None",
+                previous_pregnancy_history="None",
+                infertility_duration="Not specified",
+                infertility_cause="Under evaluation",
+                menstrual_history="Regular",
+                fertility_treatment_history="None",
+                doctor_notes="Demo patient",
+                emergency_contact_name="Emergency Contact",
+                emergency_contact_phone="+15550000003",
+                password=hash_password(DEFAULT_PATIENT_PASSWORD)
+            )
+
+            db.add(existing_patient)
+            db.commit()
+            db.refresh(existing_patient)
+
+        elif not verify_password(
+            DEFAULT_PATIENT_PASSWORD,
+            existing_patient.password
+        ):
+
+            existing_patient.password = hash_password(DEFAULT_PATIENT_PASSWORD)
+            db.commit()
 
     existing_patient = db.query(
         models.Patient
@@ -1519,6 +1611,13 @@ def update_patient_medical_information(
         raise HTTPException(
             status_code=404,
             detail="Patient not found"
+        )
+
+    if patient.doctor_id != doctor_user["user_id"]:
+
+        raise HTTPException(
+            status_code=403,
+            detail="You can only update patients assigned to you"
         )
 
     patient.medical_history = (

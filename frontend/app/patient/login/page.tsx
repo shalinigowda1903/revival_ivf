@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import {
   Eye,
   EyeOff,
@@ -314,7 +315,7 @@ export default function PatientLoginPage() {
               <div className="mt-6 rounded-xl border border-[#e5e1de] bg-[#fafaf9] px-4 py-4 text-center">
 
                 <p className="text-sm text-[#77747a]">
-                  Don't have a patient account?
+                  Don&apos;t have a patient account?
                 </p>
 
                 <a
@@ -346,12 +347,12 @@ export default function PatientLoginPage() {
               {/* BACK */}
               <div className="mt-7 text-center">
 
-                <a
+                <Link
                   href="/"
                   className="text-sm font-medium text-[#77747a] hover:text-[#302a52]"
                 >
                   ← Back to REVIVAL IVF
-                </a>
+                </Link>
 
               </div>
 

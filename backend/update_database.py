@@ -2,6 +2,7 @@ from sqlalchemy import text
 from database import engine
 
 columns = [
+    ("doctor_id", "INTEGER"),
     ("medical_history", "TEXT"),
     ("current_problems", "TEXT"),
     ("previous_surgeries", "TEXT"),
@@ -23,13 +24,21 @@ columns = [
 
 with engine.begin() as connection:
 
+    existing_columns = {
+        row[1]
+        for row in connection.execute(text("PRAGMA table_info(patients)"))
+    }
+
     for column_name, column_type in columns:
+
+        if column_name in existing_columns:
+            print(f"Already present: {column_name}")
+            continue
 
         sql = text(
             f"""
             ALTER TABLE patients
-            ADD COLUMN IF NOT EXISTS
-            {column_name} {column_type}
+            ADD COLUMN {column_name} {column_type}
             """
         )
 

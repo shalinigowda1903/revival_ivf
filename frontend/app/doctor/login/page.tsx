@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import {
   Eye,
   EyeOff,
@@ -329,12 +330,12 @@ export default function DoctorLogin() {
               </div>
 
               <div className="mt-7 text-center">
-                <a
+                <Link
                   href="/"
                   className="text-sm font-medium text-[#77747a] hover:text-[#302a52]"
                 >
                   ← Back to REVIVAL IVF
-                </a>
+                </Link>
               </div>
 
               <p className="mt-8 text-center text-xs text-[#aaa7ab]">

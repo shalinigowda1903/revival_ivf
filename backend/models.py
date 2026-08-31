@@ -15,6 +15,10 @@ class Patient(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
+    # Set when a doctor creates the patient from the doctor portal.
+    # Self-registered patients can remain unassigned.
+    doctor_id = Column(Integer, nullable=True, index=True)
+
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
 
