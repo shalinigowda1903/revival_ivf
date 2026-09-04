@@ -17,7 +17,11 @@ import {
   ClipboardList,
 } from "lucide-react";
 
+import PatientCopilot from "../../components/PatientCopilot";
+
 const API_URL = "/api";
+
+
 
 type Patient = {
   user_id?: number;
@@ -135,18 +139,14 @@ export default function PatientDashboard() {
         );
 
         if (medicalResponse.ok) {
-          const medicalData: Pick<
-            Patient,
-            | "medical_history"
-            | "ongoing_treatments"
-            | "current_medications"
-          > = await medicalResponse.json();
+          const medicalData: Partial<Patient> = await medicalResponse.json();
 
-          setPatient({
-            ...patientData,
+          setPatient((prev) => ({
+            ...(prev || patientData),
             ...medicalData,
-          });
+          }));
         }
+
       } catch {
         // The dashboard remains available if the summary cannot be loaded.
       }
@@ -1087,9 +1087,13 @@ export default function PatientDashboard() {
         </main>
 
       </div>
+
+      {/* PATIENT PORTAL COPILOT */}
+      <PatientCopilot patient={patient} embryos={embryos} />
     </div>
   );
 }
+
 
 /* =========================================================
    SUMMARY CARD

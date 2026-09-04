@@ -1,11 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date, Text
 from database import Base
-
-
-# =========================================================
-# PATIENT
-# =========================================================
-
 class Patient(Base):
     __tablename__ = "patients"
 

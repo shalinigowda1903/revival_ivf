@@ -168,7 +168,8 @@ export default function DoctorPatientsPage() {
         return;
       }
 
-      const response = await fetch(`${API_URL}/patients`, {
+      const response = await fetch(`${API_URL}/doctors/patients`, {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",

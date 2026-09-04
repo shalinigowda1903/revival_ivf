@@ -34,10 +34,14 @@ interface PatientData {
     medical_history: string | null;
     ongoing_treatments: string | null;
     current_medications: string | null;
+    doctor_notes: string | null;
+    emergency_contact_name: string | null;
+    emergency_contact_phone: string | null;
   };
   embryo_count: number;
   embryos: Embryo[];
 }
+
 
 export default function PatientEmbryosPage() {
   const params = useParams();
@@ -192,12 +196,17 @@ export default function PatientEmbryosPage() {
 
     const formData = new FormData(event.currentTarget);
     const medicalHistory = String(formData.get("medical_history") || "");
-    const ongoingTreatments = String(
-      formData.get("ongoing_treatments") || ""
-    );
+    const treatmentType = String(formData.get("treatment_type") || "");
+    const treatmentDetails = String(formData.get("treatment_details") || "");
+    const ongoingTreatments = treatmentType
+      ? `${treatmentType}${treatmentDetails ? " - " + treatmentDetails : ""}`
+      : String(formData.get("ongoing_treatments") || "");
     const currentMedications = String(
       formData.get("current_medications") || ""
     );
+    const doctorNotes = String(formData.get("doctor_notes") || "");
+    const emergencyContactName = String(formData.get("emergency_contact_name") || "");
+    const emergencyContactPhone = String(formData.get("emergency_contact_phone") || "");
 
     setSavingMedical(true);
     setMedicalError("");
@@ -216,6 +225,9 @@ export default function PatientEmbryosPage() {
             medical_history: medicalHistory || null,
             ongoing_treatments: ongoingTreatments || null,
             current_medications: currentMedications || null,
+            doctor_notes: doctorNotes || null,
+            emergency_contact_name: emergencyContactName || null,
+            emergency_contact_phone: emergencyContactPhone || null,
           }),
         }
       );
@@ -237,11 +249,14 @@ export default function PatientEmbryosPage() {
                 medical_history: result.patient.medical_history,
                 ongoing_treatments: result.patient.ongoing_treatments,
                 current_medications: result.patient.current_medications,
+                doctor_notes: result.patient.doctor_notes,
+                emergency_contact_name: result.patient.emergency_contact_name,
+                emergency_contact_phone: result.patient.emergency_contact_phone,
               },
             }
           : previous
       );
-      setMedicalMessage("Medical information saved successfully.");
+      setMedicalMessage("Medical information and ongoing treatment updated successfully.");
     } catch (err) {
       setMedicalError(
         err instanceof Error
@@ -249,6 +264,7 @@ export default function PatientEmbryosPage() {
           : "Unable to save medical information."
       );
     } finally {
+
       setSavingMedical(false);
     }
   };
@@ -430,21 +446,84 @@ export default function PatientEmbryosPage() {
           </div>
 
           <form onSubmit={saveMedicalInformation} className="space-y-5">
+            <div>
+              <label className="block text-sm font-semibold text-[#555159]">
+                Select Ongoing IVF Treatment Protocol
+              </label>
+              <select
+                name="treatment_type"
+                defaultValue={
+                  data.patient.ongoing_treatments?.split(" - ")[0] || "Standard IVF Cycle"
+                }
+                className="mt-2 w-full rounded-xl border border-[#ddd9d6] bg-[#fafaf9] px-4 py-3 text-sm font-medium text-[#403b44] outline-none transition focus:border-[#70658f] focus:bg-white"
+              >
+                <option value="Standard IVF Cycle">Standard In Vitro Fertilization (IVF Cycle)</option>
+                <option value="ICSI (Intracytoplasmic Sperm Injection)">ICSI (Intracytoplasmic Sperm Injection)</option>
+                <option value="IUI (Intrauterine Insemination)">IUI (Intrauterine Insemination)</option>
+                <option value="Frozen Embryo Transfer (FET)">Frozen Embryo Transfer (FET)</option>
+                <option value="Controlled Ovarian Hyperstimulation (COH)">Controlled Ovarian Hyperstimulation (COH)</option>
+                <option value="PGT-A / PGT-M Genetic Testing Cycle">PGT-A / PGT-M Genetic Testing Cycle</option>
+                <option value="Donor Egg / Sperm / Embryo Cycle">Donor Egg / Sperm / Embryo Cycle</option>
+                <option value="Testicular Sperm Extraction (TESE / MESA)">Testicular Sperm Extraction (TESE / MESA)</option>
+                <option value="Fertility Preservation / Cryopreservation">Fertility Preservation / Cryopreservation</option>
+                <option value="Blastocyst Culture & Extended Monitoring">Blastocyst Culture & Extended Monitoring</option>
+              </select>
+            </div>
+
+            <MedicalField
+              label="Treatment Notes & Protocol Stage"
+              name="treatment_details"
+              defaultValue={
+                data.patient.ongoing_treatments?.includes(" - ")
+                  ? data.patient.ongoing_treatments.split(" - ").slice(1).join(" - ")
+                  : data.patient.ongoing_treatments || ""
+              }
+            />
+
             <MedicalField
               label="Medical History"
               name="medical_history"
               defaultValue={data.patient.medical_history || ""}
             />
-            <MedicalField
-              label="Ongoing Treatment"
-              name="ongoing_treatments"
-              defaultValue={data.patient.ongoing_treatments || ""}
-            />
+
             <MedicalField
               label="Current Medications"
               name="current_medications"
               defaultValue={data.patient.current_medications || ""}
             />
+
+            <MedicalField
+              label="Doctor Clinical Notes"
+              name="doctor_notes"
+              defaultValue={data.patient.doctor_notes || ""}
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-[#555159]">
+                  Emergency Contact Name
+                </label>
+                <input
+                  type="text"
+                  name="emergency_contact_name"
+                  defaultValue={data.patient.emergency_contact_name || ""}
+                  className="mt-2 w-full rounded-xl border border-[#ddd9d6] bg-[#fafaf9] px-4 py-3 text-sm text-[#403b44] outline-none transition focus:border-[#70658f] focus:bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-[#555159]">
+                  Emergency Contact Phone
+                </label>
+                <input
+                  type="text"
+                  name="emergency_contact_phone"
+                  defaultValue={data.patient.emergency_contact_phone || ""}
+                  className="mt-2 w-full rounded-xl border border-[#ddd9d6] bg-[#fafaf9] px-4 py-3 text-sm text-[#403b44] outline-none transition focus:border-[#70658f] focus:bg-white"
+                />
+              </div>
+            </div>
+
 
             {medicalError && (
               <p className="text-sm font-medium text-[#a45d64]">

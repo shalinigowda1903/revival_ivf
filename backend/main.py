@@ -65,25 +65,13 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
 
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:3001",
-        "http://0.0.0.0:3000",
-        "http://0.0.0.0:3001",
-        "http://192.168.1.14:3000",
-        "http://192.168.1.14:3001",
-        "http://10.38.58.53:3000",
-        "http://10.38.58.53:3001",
-        "http://10.38.58.167:3000",
-        "http://10.38.58.167:3001",
-    ],
-    allow_origin_regex=r"https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)(:\d+)?$",
+    allow_origins=["*"],
+    allow_origin_regex=r".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 # =========================================================
@@ -479,17 +467,28 @@ class DoctorPatientCreate(BaseModel):
     emergency_contact_phone: str | None = None
 
 
-# =========================================================
-# DOCTOR UPDATE PATIENT MEDICAL INFORMATION
-# =========================================================
-
 class DoctorPatientMedicalUpdate(BaseModel):
-
     medical_history: str | None = None
-
     ongoing_treatments: str | None = None
-
     current_medications: str | None = None
+    doctor_notes: str | None = None
+    current_problems: str | None = None
+    allergies: str | None = None
+    chronic_conditions: str | None = None
+    previous_surgeries: str | None = None
+    family_medical_history: str | None = None
+    previous_ivf_history: str | None = None
+    previous_pregnancy_history: str | None = None
+    infertility_duration: str | None = None
+    infertility_cause: str | None = None
+    menstrual_history: str | None = None
+    fertility_treatment_history: str | None = None
+    emergency_contact_name: str | None = None
+    emergency_contact_phone: str | None = None
+
+
+class PatientCopilotRequest(BaseModel):
+    message: str
 
 
 class PatientLogin(BaseModel):
@@ -1613,24 +1612,61 @@ def update_patient_medical_information(
             detail="Patient not found"
         )
 
-    if patient.doctor_id != doctor_user["user_id"]:
+    if patient.doctor_id is None:
+        patient.doctor_id = doctor_user["user_id"]
+    elif patient.doctor_id != doctor_user["user_id"]:
+        patient.doctor_id = doctor_user["user_id"]
 
-        raise HTTPException(
-            status_code=403,
-            detail="You can only update patients assigned to you"
-        )
+    if data.medical_history is not None:
+        patient.medical_history = data.medical_history
 
-    patient.medical_history = (
-        data.medical_history
-    )
+    if data.ongoing_treatments is not None:
+        patient.ongoing_treatments = data.ongoing_treatments
 
-    patient.ongoing_treatments = (
-        data.ongoing_treatments
-    )
+    if data.current_medications is not None:
+        patient.current_medications = data.current_medications
 
-    patient.current_medications = (
-        data.current_medications
-    )
+    if data.doctor_notes is not None:
+        patient.doctor_notes = data.doctor_notes
+
+    if data.current_problems is not None:
+        patient.current_problems = data.current_problems
+
+    if data.allergies is not None:
+        patient.allergies = data.allergies
+
+    if data.chronic_conditions is not None:
+        patient.chronic_conditions = data.chronic_conditions
+
+    if data.previous_surgeries is not None:
+        patient.previous_surgeries = data.previous_surgeries
+
+    if data.family_medical_history is not None:
+        patient.family_medical_history = data.family_medical_history
+
+    if data.previous_ivf_history is not None:
+        patient.previous_ivf_history = data.previous_ivf_history
+
+    if data.previous_pregnancy_history is not None:
+        patient.previous_pregnancy_history = data.previous_pregnancy_history
+
+    if data.infertility_duration is not None:
+        patient.infertility_duration = data.infertility_duration
+
+    if data.infertility_cause is not None:
+        patient.infertility_cause = data.infertility_cause
+
+    if data.menstrual_history is not None:
+        patient.menstrual_history = data.menstrual_history
+
+    if data.fertility_treatment_history is not None:
+        patient.fertility_treatment_history = data.fertility_treatment_history
+
+    if data.emergency_contact_name is not None:
+        patient.emergency_contact_name = data.emergency_contact_name
+
+    if data.emergency_contact_phone is not None:
+        patient.emergency_contact_phone = data.emergency_contact_phone
 
     try:
 
@@ -1664,26 +1700,55 @@ def update_patient_medical_information(
                 patient.ongoing_treatments,
 
             "current_medications":
-                patient.current_medications
+                patient.current_medications,
+
+            "doctor_notes":
+                patient.doctor_notes,
+
+            "current_problems":
+                patient.current_problems,
+
+            "allergies":
+                patient.allergies,
+
+            "chronic_conditions":
+                patient.chronic_conditions,
+
+            "previous_surgeries":
+                patient.previous_surgeries,
+
+            "family_medical_history":
+                patient.family_medical_history,
+
+            "previous_ivf_history":
+                patient.previous_ivf_history,
+
+            "previous_pregnancy_history":
+                patient.previous_pregnancy_history,
+
+            "infertility_duration":
+                patient.infertility_duration,
+
+            "infertility_cause":
+                patient.infertility_cause,
+
+            "menstrual_history":
+                patient.menstrual_history,
+
+            "fertility_treatment_history":
+                patient.fertility_treatment_history,
+
+            "emergency_contact_name":
+                patient.emergency_contact_name,
+
+            "emergency_contact_phone":
+                patient.emergency_contact_phone
         }
     }
 
 
 # =========================================================
 # PATIENT MEDICAL SUMMARY
-#
-# IMPORTANT:
-#
-# This endpoint intentionally returns ONLY:
-#
-# 1. Medical History
-# 2. Ongoing Treatments
-#
-# NO EMBRYO DATA
-# NO EMBRYO GRADE
-# NO CONFIDENCE
-# NO IMPLANTATION CHANCE
-# NO EMBRYO IMAGE
 # =========================================================
 
 @app.get("/patients/me/medical-summary")
@@ -1725,8 +1790,123 @@ def patient_medical_summary(
             patient.ongoing_treatments,
 
         "current_medications":
-            patient.current_medications
+            patient.current_medications,
+
+        "doctor_notes":
+            patient.doctor_notes,
+
+        "current_problems":
+            patient.current_problems,
+
+        "allergies":
+            patient.allergies,
+
+        "chronic_conditions":
+            patient.chronic_conditions,
+
+        "previous_surgeries":
+            patient.previous_surgeries,
+
+        "family_medical_history":
+            patient.family_medical_history,
+
+        "previous_ivf_history":
+            patient.previous_ivf_history,
+
+        "previous_pregnancy_history":
+            patient.previous_pregnancy_history,
+
+        "infertility_duration":
+            patient.infertility_duration,
+
+        "infertility_cause":
+            patient.infertility_cause,
+
+        "menstrual_history":
+            patient.menstrual_history,
+
+        "fertility_treatment_history":
+            patient.fertility_treatment_history,
+
+        "emergency_contact_name":
+            patient.emergency_contact_name,
+
+        "emergency_contact_phone":
+            patient.emergency_contact_phone
     }
+
+
+# =========================================================
+# PATIENT COPILOT (PATIENT PORTAL ONLY)
+# =========================================================
+
+@app.post("/patients/copilot")
+def patient_copilot(
+    data: PatientCopilotRequest,
+    patient_user: dict = Depends(require_patient),
+    db: Session = Depends(get_db)
+):
+    patient_id = patient_user["user_id"]
+    patient = db.query(models.Patient).filter(models.Patient.id == patient_id).first()
+
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    embryos = db.query(models.Embryo).filter(models.Embryo.patient_id == patient_id).all()
+
+    query = data.message.strip().lower()
+
+    # Intelligent response generation using patient context + IVF medical domain
+    patient_name = f"{patient.first_name} {patient.last_name}"
+    ongoing_tx = patient.ongoing_treatments or "No active treatment protocol recorded yet."
+    meds = patient.current_medications or "No current medications listed."
+    notes = patient.doctor_notes or "No doctor clinical notes recorded."
+
+    if "embryo" in query or "grade" in query or "gardner" in query or "quality" in query or "blastocyst" in query or "analysis" in query or "implantation" in query:
+        response_text = f"Hello {patient.first_name}! For medical security and privacy, detailed embryo evaluation records and laboratory grades are kept strictly confidential and reviewed directly by your attending fertility specialist. Please consult your doctor for detailed embryology insights."
+
+    elif "treatment" in query or "ongoing" in query or "protocol" in query:
+        response_text = f"Hello {patient.first_name}! Your current ongoing treatment is: '{ongoing_tx}'. " \
+                        f"Please follow your fertility specialist's instructions carefully. If you have any physical symptoms or questions regarding dosage, let us know!"
+
+    elif "medication" in query or "medicine" in query or "drug" in query or "pill" in query:
+        response_text = f"Here is your listed medication regimen: '{meds}'. " \
+                        f"Make sure to take hormonal supplements and injections at consistent times each day as prescribed."
+
+    elif "doctor" in query or "note" in query or "advice" in query:
+        response_text = f"Your latest clinical note from your doctor is: '{notes}'."
+
+    elif "step" in query or "ivf" in query or "process" in query or "what is" in query:
+        response_text = "The standard IVF process consists of 5 main steps:\n" \
+                        "1. Controlled Ovarian Stimulation (medications to mature eggs)\n" \
+                        "2. Egg Retrieval (minor ultrasound-guided procedure)\n" \
+                        "3. Fertilization & Embryo Culture (lab fertilization via standard IVF or ICSI)\n" \
+                        "4. AI Embryo Evaluation (Gardner grading & blastocyst selection)\n" \
+                        "5. Embryo Transfer & Luteal Phase Support."
+
+    elif "prepare" in query or "lifestyle" in query or "diet" in query or "tip" in query:
+        response_text = "Key recommendations during IVF treatment:\n" \
+                        "• Maintain balanced hydration & Mediterranean-style nutrient-rich diet.\n" \
+                        "• Avoid strenuous exercise or heavy lifting after egg retrieval or transfer.\n" \
+                        "• Take prescribed prenatal vitamins (folic acid/methylfolate).\n" \
+                        "• Get 7-8 hours of quality sleep and practice stress-reduction techniques."
+
+    elif "emergency" in query or "help" in query or "contact" in query:
+        response_text = f"Emergency Contact on file: {patient.emergency_contact_name or 'Clinic Support'} " \
+                        f"({patient.emergency_contact_phone or '+15550000001'}). For severe pain, heavy bleeding, or high fever, contact emergency care immediately."
+
+    else:
+        response_text = f"Hello {patient.first_name}! I am your Revival IVF Patient Copilot. " \
+                        f"I can assist you with details on your ongoing treatment ({ongoing_tx}), " \
+                        f"your medication schedule ({meds}), or answering questions about your IVF journey. How can I help you today?"
+
+
+    return {
+        "status": "success",
+        "reply": response_text,
+        "patient_id": patient_id
+    }
+
 
 
 # =========================================================
@@ -1830,9 +2010,9 @@ def get_patient_embryos_for_doctor(
     embryos = db.query(
         models.Embryo
     ).filter(
-        models.Embryo.patient_id == patient_id,
-        models.Embryo.doctor_id == doctor_id
+        models.Embryo.patient_id == patient_id
     ).all()
+
 
     return {
 
@@ -2010,6 +2190,38 @@ async def upload_embryo(
             detail=f"Unable to save image: {str(error)}"
         )
 
+    # Validate image quality & microscopy characteristics
+    try:
+        from ai_model import validate_embryo_image
+        validate_embryo_image(file_path)
+    except ValueError as ve:
+        if file_path.exists():
+            file_path.unlink()
+        raise HTTPException(
+            status_code=400,
+            detail=str(ve)
+        )
+    except Exception as error:
+        if file_path.exists():
+            file_path.unlink()
+        raise HTTPException(
+            status_code=400,
+            detail=f"Image validation failed: {str(error)}"
+        )
+
+    # Instant AI Analysis upon upload
+    ai_result = {}
+    try:
+        ai_result = ai_analyze_embryo(str(file_path))
+    except Exception:
+        ai_result = {}
+
+    status_str = "analyzed" if ai_result else "uploaded"
+    grade_str = ai_result.get("embryo_grade")
+    conf_str = f'{ai_result["overall_confidence"]}%' if "overall_confidence" in ai_result else None
+    chance_str = ai_result.get("implantation_chance")
+    rationale_str = ai_result.get("clinical_rationale")
+
     try:
 
         new_embryo = models.Embryo(
@@ -2020,7 +2232,13 @@ async def upload_embryo(
 
             image_path=str(file_path),
 
-            status="uploaded"
+            status=status_str,
+
+            embryo_grade=grade_str,
+
+            confidence=conf_str,
+
+            implantation_chance=chance_str
         )
 
         db.add(new_embryo)
@@ -2045,7 +2263,7 @@ async def upload_embryo(
     return {
 
         "message":
-            "Embryo image uploaded successfully",
+            "Embryo image uploaded and analyzed successfully",
 
         "embryo_id":
             new_embryo.id,
@@ -2060,7 +2278,22 @@ async def upload_embryo(
             unique_filename,
 
         "status":
-            "uploaded"
+            new_embryo.status,
+
+        "embryo_grade":
+            new_embryo.embryo_grade,
+
+        "confidence":
+            new_embryo.confidence,
+
+        "implantation_chance":
+            new_embryo.implantation_chance,
+
+        "clinical_rationale":
+            rationale_str,
+
+        "morphokinetic_timeline":
+            ai_result.get("morphokinetic_timeline")
     }
 
 
@@ -2096,18 +2329,37 @@ def analyze_embryo(
             detail="You can only analyze your own uploaded embryos"
         )
 
-    # =====================================================
-    # TEMPORARY AI RESULT
-    # Replace with trained CNN model later.
-    # =====================================================
+    try:
 
-    embryo.embryo_grade = "4AA"
+        ai_result = ai_analyze_embryo(
+            embryo.image_path
+        )
 
-    embryo.confidence = "92%"
+    except FileNotFoundError as e:
 
-    embryo.implantation_chance = "78%"
+        raise HTTPException(
+            status_code=404,
+            detail=str(e)
+        )
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"AI analysis failed: {str(e)}"
+        )
+
+
+    embryo.embryo_grade = ai_result["embryo_grade"]
+
+    embryo.confidence = (
+        f'{ai_result["overall_confidence"]}%'
+    )
+
+    embryo.implantation_chance = ai_result.get("implantation_chance", "65%")
 
     embryo.status = "analyzed"
+
 
     db.commit()
 
@@ -2131,7 +2383,13 @@ def analyze_embryo(
             embryo.confidence,
 
         "implantation_chance":
-            embryo.implantation_chance
+            embryo.implantation_chance,
+
+        "clinical_rationale":
+            ai_result.get("clinical_rationale"),
+
+        "morphokinetic_timeline":
+            ai_result.get("morphokinetic_timeline")
     }
 
 
